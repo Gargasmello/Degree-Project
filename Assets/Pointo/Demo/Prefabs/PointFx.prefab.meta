@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e46add3df66c84497ade512fba0eeaff
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Demo/Prefabs/PointFx.prefab
+  uploadId: 425358

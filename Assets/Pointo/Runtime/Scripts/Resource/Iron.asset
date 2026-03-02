@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf5dfccb6e04943d0b796cd6ad5b7db3, type: 3}
+  m_Name: Iron
+  m_EditorClassIdentifier: 
+  name: Iron
+  resourceType: 3
+  mat: {fileID: 2100000, guid: 605f548e9f2ed49908bae5ee7bc33bdf, type: 2}
+  timeToFinish: 10
+  collectFX: {fileID: 7336452647067294431, guid: 420fed2ec487e49e9bcc8a0d88f79689,
+    type: 3}
+  amountToCollect: 3

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 311cb5c4280f042f89c82ecd3e12b1be
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Runtime/Scripts/Resource/Tree.asset
+  uploadId: 425358

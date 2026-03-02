@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 8b70bd906b9744b079e5fe53af485c2b
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Demo/Prefabs/Pointo Controller.prefab
+  uploadId: 425358

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 948b8c00f36e84ea6a99445f760c7afe
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Demo/Prefabs/Camera Target.prefab
+  uploadId: 425358

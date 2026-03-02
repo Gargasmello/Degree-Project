@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d89249bbd7ab447a88df0e0ad34d6e5, type: 3}
+  m_Name: Human_Peon
+  m_EditorClassIdentifier: 
+  unitRaceType: 1
+  unitType: 0
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 1536
+  mat: {fileID: 2100000, guid: c87de7321e3194216a607118940d9110, type: 2}
+  attackStrength: 1
+  coolDownTime: 2

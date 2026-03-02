@@ -1,0 +1,23 @@
+{
+    "name": "com.berserkpixel.pointo",
+    "version": "1.0.0",
+    "displayName": "Pointo",
+    "description": "Easy and fully customizable Real Time Strategy (RTS) Starter Kit.",
+    "unity": "2019.1",
+    "dependencies": {
+
+    },
+    "keywords": [
+        "real time strategy",
+        "starter kit",
+        "rts",
+        "simple",
+        "easy",
+        "lightweight"
+    ],
+    "author": {
+        "name": "Berserk Pixel Game Studio",
+        "email": "hello@berserkpixel.studio",
+        "url": "https://berserkpixel.studio"
+    }
+}

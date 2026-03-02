@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 116603b4e62774fbea4f78ecd6edbaf5
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Runtime/Scripts/Unit/Unit.cs
+  uploadId: 425358

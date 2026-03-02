@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c002732162f164f12907941caa13fca6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Demo/Materials/Selector.mat
+  uploadId: 425358

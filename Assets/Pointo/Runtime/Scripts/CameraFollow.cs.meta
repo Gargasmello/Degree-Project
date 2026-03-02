@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 5e8d2b9169f364d7c9f4c8d531120b61
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Runtime/Scripts/CameraFollow.cs
+  uploadId: 425358

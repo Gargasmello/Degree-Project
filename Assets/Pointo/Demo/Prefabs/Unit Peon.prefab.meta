@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 971ac0cd907684a5d891d184d5fb56af
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Demo/Prefabs/Unit Peon.prefab
+  uploadId: 425358

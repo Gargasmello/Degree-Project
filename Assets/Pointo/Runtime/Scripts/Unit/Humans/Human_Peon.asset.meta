@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d1d438e5f15924b249be420ec8f8387c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Runtime/Scripts/Unit/Humans/Human_Peon.asset
+  uploadId: 425358

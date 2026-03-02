@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: a58c3767c3a7f4e2d9d457f20a999df7
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Demo/Prefabs/Unit Knight.prefab
+  uploadId: 425358

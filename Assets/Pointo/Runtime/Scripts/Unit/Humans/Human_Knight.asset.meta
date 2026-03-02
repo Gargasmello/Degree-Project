@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c53dd64e7d7264a0e90d30b10fce8c73
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Runtime/Scripts/Unit/Humans/Human_Knight.asset
+  uploadId: 425358

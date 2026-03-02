@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: eb8cabe217cbe4823ae86dd3d8edeacc
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 191846
+  packageName: 'Pointo: RTS Blueprints'
+  packageVersion: 1.0
+  assetPath: Assets/Pointo/Runtime/Scripts/Resource/Iron.asset
+  uploadId: 425358
