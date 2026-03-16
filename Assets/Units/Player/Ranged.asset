@@ -19,4 +19,5 @@ MonoBehaviour:
     m_Bits: 512
   mat: {fileID: 2100000, guid: 92c2e1d872247124593e7368c108befa, type: 2}
   attackStrength: 10
+  health: 30
   coolDownTime: 2

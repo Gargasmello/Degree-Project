@@ -15,6 +15,7 @@ namespace Pointo.Unit
         public LayerMask targetMask;
         public Material mat;
         public float attackStrength = 1.0f;
+        public float health = 10.0f;
 
         [Tooltip("Time to rest after collecting a Resource")]
         public float coolDownTime = 2f;

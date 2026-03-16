@@ -34,7 +34,7 @@ namespace Pointo.Unit
             coolDownTime = unit.GetCooldownTime();
             targetLayerMask = unit.GetTargetLayerMask();
 
-            currentState = UnitState.Available;
+            currentState = UnitState.Fighting;
         }
 
         private void Update()

@@ -93,6 +93,8 @@ namespace Pointo.Unit
             navAgent.SetDestination(moveToPos);
         }
 
+        //TODO: Make unit not move toward enemy unit if the unit is within range.
+        //  Make unit only move up into range if used to target enemy unit outside range
         private void HandleObjectClicked(GameObject targetObject)
         {
             if (!IsSelected) return;
