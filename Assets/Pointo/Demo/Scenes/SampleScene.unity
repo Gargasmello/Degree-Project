@@ -785,6 +785,7 @@ MonoBehaviour:
   height: 9
   tilePrefab: {fileID: 5388919266218900569, guid: 5c89044ccd9db0f46b2ec1e203090302,
     type: 3}
+  cam: {fileID: 1316267243}
 --- !u!4 &366642274
 Transform:
   m_ObjectHideFlags: 0
@@ -2635,6 +2636,12 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!4 &1316267243 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4392459130187356243, guid: 948b8c00f36e84ea6a99445f760c7afe,
+    type: 3}
+  m_PrefabInstance: {fileID: 4392459131111617831}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1333025576
 PrefabInstance:
   m_ObjectHideFlags: 0
