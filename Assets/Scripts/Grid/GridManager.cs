@@ -1,3 +1,4 @@
+using Pointo.Unit;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -44,6 +45,8 @@ public class GridManager : MonoBehaviour
 
     public Tile GetPlayerSpawnTile()
     {
+        //TODO: does not find a walkable tile in tiles and does not compute at all if ordered with random
+        Debug.LogFormat("Walkable value", tiles.Where(t => t.Key.x < width / 2 && t.Value.Walkable));
         return tiles.Where(t=>t.Key.x < width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
     }
 
