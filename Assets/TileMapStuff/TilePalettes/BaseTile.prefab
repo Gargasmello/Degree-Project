@@ -102,10 +102,9 @@ GameObject:
   m_Component:
   - component: {fileID: 679262292417021277}
   - component: {fileID: 3862801595061236147}
-  - component: {fileID: 5388919266218900569}
   - component: {fileID: 5347654644895615701}
   m_Layer: 0
-  m_Name: Tile
+  m_Name: BaseTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -119,14 +118,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5307355383152376929}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.94217, y: -0, z: 7.86679}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3803553011900553638}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &3862801595061236147
 SpriteRenderer:
   serializedVersion: 2
@@ -187,21 +186,6 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!114 &5388919266218900569
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5307355383152376929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a9292d9eac2f2f498561df06678f36a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Tile
-  baseColor: {r: 0.4337464, g: 0.9056604, b: 0.26059094, a: 1}
-  offsetColor: {r: 0.1838429, g: 0.7169812, b: 0.1251335, a: 1}
-  highlight: {fileID: 2398282509196965014}
 --- !u!61 &5347654644895615701
 BoxCollider2D:
   m_ObjectHideFlags: 0

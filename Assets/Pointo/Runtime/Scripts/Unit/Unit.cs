@@ -13,6 +13,7 @@ namespace Pointo.Unit
 
         private NavMeshAgent navAgent;
         private Vector3 offset;
+        public Tile occupiedTile;
 
         private GameObject selectedIcon;
         private Vector3 startingPos;

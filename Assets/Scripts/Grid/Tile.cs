@@ -1,15 +1,17 @@
+using Pointo.Unit;
 using System.Diagnostics;
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+public abstract class Tile : MonoBehaviour
 {
-    [SerializeField] private Color baseColor, offsetColor;
     [SerializeField] private GameObject highlight;
+    [SerializeField] private bool isWalkable;
 
-    public void Init(bool isOffset)
+    public Unit occupiedUnit;
+    public bool Walkable => isWalkable && occupiedUnit != null;
+
+    public virtual void Init(int x, int y)
     {
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
-        renderer.color = isOffset ? offsetColor : baseColor;
     }
 
     private void OnMouseEnter()
@@ -20,5 +22,13 @@ public class Tile : MonoBehaviour
     private void OnMouseExit()
     {
         highlight.SetActive(false);
+    }
+
+    public void SetUnit(Unit unit)
+    {
+        if (unit.occupiedTile != null) unit.occupiedTile.occupiedUnit = null;
+        unit.transform.position = transform.position;
+        occupiedUnit = unit;
+        unit.occupiedTile = this;
     }
 }

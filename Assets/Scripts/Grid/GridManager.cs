@@ -1,22 +1,25 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GridManager : MonoBehaviour
 {
+    public static GridManager instance;
     [SerializeField] private int width, height;
 
-    [SerializeField] private Tile tilePrefab;
+    [SerializeField] private Tile grassTile, mountainTile;
 
     [SerializeField] private Transform cam;
 
     private Dictionary<Vector2, Tile> tiles;
 
-    private void Start()
+    private void Awake()
     {
-        GenerateGrid();
+        instance = this;
     }
 
-    void GenerateGrid()
+    // TODO: Can make biome logic either with a grid thing or manually to create this with different biomes
+    public void GenerateGrid()
     {
         tiles = new Dictionary<Vector2, Tile>();
 
@@ -24,17 +27,29 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < height; y++)
             {
-                var spawnedTile = Instantiate(tilePrefab, new Vector3( x, y) , Quaternion.identity);
+                var randomTile = Random.Range(0, 6) == 3 ? mountainTile : grassTile;
+                var spawnedTile = Instantiate(randomTile, new Vector2( x, y) , Quaternion.identity);
                 spawnedTile.name = $"Tile {x} {y}";
 
-                var isOffset = ((x % 2) == 0 && (y % 2) != 0) || ((x % 2) != 0 && (y % 2) == 0);
-                spawnedTile.Init(isOffset);
+                spawnedTile.Init(x, y);
 
                 tiles[new Vector2(x, y)] = spawnedTile;
             }
         }
 
         cam.transform.position = new Vector3((float) width / 2 -0.5f, (float)height / 2 -0.5f, -10);
+
+        Gamemanager.instance.UpdateGameState(GameState.Spawn_Unit);
+    }
+
+    public Tile GetPlayerSpawnTile()
+    {
+        return tiles.Where(t=>t.Key.x < width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
+    }
+
+    public Tile GetAiSpawnTile()
+    {
+        return tiles.Where(t => t.Key.x > width / 2 && t.Value.Walkable).OrderBy(t => Random.value).First().Value;
     }
 
     public Tile GetTileFromPosition(Vector2 position)
