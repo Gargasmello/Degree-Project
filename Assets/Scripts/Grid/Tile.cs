@@ -1,5 +1,6 @@
 using Pointo.Unit;
 using System.Diagnostics;
+using UnityEditor.SpeedTree.Importer;
 using UnityEngine;
 
 public abstract class Tile : MonoBehaviour
@@ -8,7 +9,7 @@ public abstract class Tile : MonoBehaviour
     [SerializeField] private bool isWalkable;
 
     public Unit occupiedUnit;
-    public bool Walkable => isWalkable && occupiedUnit != null;
+    public bool Walkable => isWalkable && occupiedUnit == null;
 
     public virtual void Init(int x, int y)
     {
@@ -22,6 +23,35 @@ public abstract class Tile : MonoBehaviour
     private void OnMouseExit()
     {
         highlight.SetActive(false);
+    }
+
+    private void OnMouseDown()
+    {
+        if(Gamemanager.instance.state != GameState.Player_Turn) return;
+
+        if (occupiedUnit != null)
+        {
+            if (occupiedUnit.unitSo.unitRaceType == UnitRaceType.Human) UnitManager.instance.SetSelectedUnit((Unit)occupiedUnit);
+            else
+            {
+                if (UnitManager.instance.selectedUnit != null)
+                {
+                    var enemy = (Unit)occupiedUnit;
+                    //TODO: make attack logic and use it here
+                    Destroy(enemy.gameObject);
+                    UnitManager.instance.SetSelectedUnit(null);
+                }
+            }
+            
+        }
+        else
+        {
+            if (UnitManager.instance.selectedUnit != null)
+            {
+                SetUnit(UnitManager.instance.selectedUnit);
+                UnitManager.instance.SetSelectedUnit(null);
+            }
+        }
     }
 
     public void SetUnit(Unit unit)

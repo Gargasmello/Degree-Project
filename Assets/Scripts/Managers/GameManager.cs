@@ -1,17 +1,6 @@
 using System;
 using UnityEngine;
 
-public enum GameState
-{
-    Start,
-    End,
-    Spawn_Unit,
-    Player_Turn,
-    Enemy_Turn,
-    Won,
-    Lost
-}
-
 public class Gamemanager : MonoBehaviour
 {
 
@@ -86,16 +75,29 @@ public class Gamemanager : MonoBehaviour
     private void HandleStart()
     {
         GridManager.instance.GenerateGrid();
-
+        UpdateGameState(GameState.Spawn_Unit);
     }
 
     private void HandleUnitSpawn()
     {
-        UnitManager.instance.SpawnBaseUnits();
+        UnitManager.instance.SpawnPlayerBaseUnits();
+        UnitManager.instance.SpawnAiBaseUnits();
+        UpdateGameState(GameState.Player_Turn);
     }
 
     private void HandleEnd()
     {
 
     }
+}
+
+public enum GameState
+{
+    Start,
+    End,
+    Spawn_Unit,
+    Player_Turn,
+    Enemy_Turn,
+    Won,
+    Lost
 }

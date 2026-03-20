@@ -9,6 +9,8 @@ public class UnitManager : MonoBehaviour
 
     public List<GameObject> units;
 
+    public Unit selectedUnit;
+
     [SerializeField] private int meleeCount;
     [SerializeField] private int rangedCount;
     [SerializeField] private int artilleryCount;
@@ -19,7 +21,7 @@ public class UnitManager : MonoBehaviour
         instance = this;
     }
 
-    public void SpawnBaseUnits()
+    public void SpawnPlayerBaseUnits()
     {
         foreach (var unit in units) 
         { 
@@ -31,4 +33,20 @@ public class UnitManager : MonoBehaviour
         }
     }
 
+    public void SpawnAiBaseUnits()
+    {
+        foreach (var unit in units)
+        {
+            var spawnedUnit = Instantiate(unit);
+            var randomSpawnTile = GridManager.instance.GetAiSpawnTile();
+
+            randomSpawnTile.SetUnit(spawnedUnit.GetComponent<Knight>());
+
+        }
+    }
+
+    public void SetSelectedUnit(Unit selectedUnit)
+    {
+        selectedUnit = selectedUnit.GetComponent<Knight>();
+    }
 }
