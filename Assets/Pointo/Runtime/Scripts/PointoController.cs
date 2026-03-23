@@ -91,7 +91,7 @@ public class PointoController : MonoBehaviour
             selectorBox.SetActive(false);
             endPoint = DoRayToGround();
             HandleRectangle();
-            SelectAllUnits();
+            //SelectAllUnits();
         }
     }
 
@@ -154,48 +154,48 @@ public class PointoController : MonoBehaviour
         selectedUnits.Clear();
     }
 
-    private void SelectAllUnits()
-    {
-        ClearAllUnits();
+    //private void SelectAllUnits()
+    //{
+    //    ClearAllUnits();
 
-        var check = Physics.BoxCastAll(
-            rectCenter,
-            halfExtents,
-            Vector3.up,
-            Quaternion.identity,
-            Mathf.Infinity,
-            unitMask,
-            QueryTriggerInteraction.UseGlobal);
+    //    var check = Physics.BoxCastAll(
+    //        rectCenter,
+    //        halfExtents,
+    //        Vector3.up,
+    //        Quaternion.identity,
+    //        Mathf.Infinity,
+    //        unitMask,
+    //        QueryTriggerInteraction.UseGlobal);
 
-        if (prioritizeClosestToSelection)
-            // we order comparing the distance to the center of the drawn rectangle
-            check = check.OrderBy(d => (d.collider.transform.position - rectCenter).sqrMagnitude).ToArray();
+    //    if (prioritizeClosestToSelection)
+    //        // we order comparing the distance to the center of the drawn rectangle
+    //        check = check.OrderBy(d => (d.collider.transform.position - rectCenter).sqrMagnitude).ToArray();
 
-        var firstUnitType = UnitRaceType.None;
+    //    var firstUnitType = UnitRaceType.None;
 
-        foreach (var hit in check)
-        {
-            var unit = hit.collider.GetComponent<Unit>();
-            if (unit == null) continue;
+    //    foreach (var hit in check)
+    //    {
+    //        var unit = hit.collider.GetComponent<Unit>();
+    //        if (unit == null) continue;
             
-            // if it's the first we find a selected object we add it and set that as the searched type
-            if (firstUnitType == UnitRaceType.None)
-            {
-                firstUnitType = unit.UnitRaceType;
+    //        // if it's the first we find a selected object we add it and set that as the searched type
+    //        if (firstUnitType == UnitRaceType.None)
+    //        {
+    //            firstUnitType = unit.UnitRaceType;
 
-                unit.SelectUnit();
-                unit.CalculateOffset(rectCenter);
-                selectedUnits.Add(unit);
-            }
-            else if (firstUnitType == unit.UnitRaceType)
-            {
-                // if we already had one type selected, we select all of that type
-                unit.SelectUnit();
-                unit.CalculateOffset(rectCenter);
-                selectedUnits.Add(unit);
-            }
-        }
-    }
+    //            unit.SelectUnit();
+    //            unit.CalculateOffset(rectCenter);
+    //            selectedUnits.Add(unit);
+    //        }
+    //        else if (firstUnitType == unit.UnitRaceType)
+    //        {
+    //            // if we already had one type selected, we select all of that type
+    //            unit.SelectUnit();
+    //            unit.CalculateOffset(rectCenter);
+    //            selectedUnits.Add(unit);
+    //        }
+    //    }
+    //}
 
     #endregion
 

@@ -2,6 +2,7 @@ using Pointo.Unit;
 using System.Diagnostics;
 using UnityEditor.SpeedTree.Importer;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public abstract class Tile : MonoBehaviour
 {
@@ -28,6 +29,8 @@ public abstract class Tile : MonoBehaviour
     private void OnMouseDown()
     {
         if(Gamemanager.instance.state != GameState.Player_Turn) return;
+
+        Debug.LogFormat("Unit on tile: {0}", occupiedUnit);
 
         if (occupiedUnit != null)
         {
@@ -57,7 +60,9 @@ public abstract class Tile : MonoBehaviour
     public void SetUnit(Unit unit)
     {
         if (unit.occupiedTile != null) unit.occupiedTile.occupiedUnit = null;
-        unit.transform.position = transform.position;
+        //unit.SelectUnit();
+        GameObject unitParent = unit.gameObject;
+        unitParent.transform.position = transform.position;
         occupiedUnit = unit;
         unit.occupiedTile = this;
     }

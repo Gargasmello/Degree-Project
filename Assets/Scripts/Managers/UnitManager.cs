@@ -28,7 +28,7 @@ public class UnitManager : MonoBehaviour
             var spawnedUnit = Instantiate(unit);
             var randomSpawnTile = GridManager.instance.GetPlayerSpawnTile();
 
-            randomSpawnTile.SetUnit(spawnedUnit.GetComponent<Knight>());
+            randomSpawnTile.SetUnit(spawnedUnit.GetComponent<Unit>());
             
         }
     }
@@ -47,6 +47,6 @@ public class UnitManager : MonoBehaviour
 
     public void SetSelectedUnit(Unit selectedUnit)
     {
-        selectedUnit = selectedUnit.GetComponent<Knight>();
+        this.selectedUnit = selectedUnit;
     }
 }
