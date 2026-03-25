@@ -4,6 +4,8 @@ using UnityEngine;
 public class Money : MonoBehaviour
 {
 
+    public static Money instance;
+
     [SerializeField] private TextMeshProUGUI resource_text;
 
     const float interval = 1; // Should in later versions be 20, is 1 now to test things
@@ -15,6 +17,11 @@ public class Money : MonoBehaviour
 
     int controlled_flags; //TODO: implement in other scripts.
 
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -25,18 +32,11 @@ public class Money : MonoBehaviour
         SetCountText();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void GainResources()
     {
-        resource_aquisition_time += Time.deltaTime;
+        resources += resource_gain;
 
-        if (resource_aquisition_time > interval)
-        {
-            resource_aquisition_time -= interval;
-            resources += resource_gain;
-
-            SetCountText();
-        }
+        SetCountText();
     }
 
     void SetResourceGain()

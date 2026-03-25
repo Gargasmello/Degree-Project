@@ -54,7 +54,7 @@ public class Gamemanager : MonoBehaviour
 
     private void HandleEnemyTurn()
     {
-
+        UpdateGameState(GameState.Player_Turn);
     }
 
     private void HandleWin()
@@ -69,7 +69,8 @@ public class Gamemanager : MonoBehaviour
 
     private void HandlePlayerTurn()
     {
-
+        Money.instance.GainResources();
+        
     }
 
     private void HandleStart()
