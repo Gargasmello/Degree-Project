@@ -1,6 +1,8 @@
 using NUnit.Framework;
+using Pointo.Unit;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Gamemanager : MonoBehaviour
@@ -59,6 +61,7 @@ public class Gamemanager : MonoBehaviour
 
     private void HandleEnemyTurn()
     {
+        UpdateAiTroops();
         UpdateGameState(GameState.Player_Turn);
     }
 
@@ -75,19 +78,20 @@ public class Gamemanager : MonoBehaviour
     private void HandlePlayerTurn()
     {
         Money.instance.GainResources();
+        RefreshPlayerTroops();
         //TODO: Refresh move points for all units
     }
 
     private void HandleStart()
     {
-        GridManager.instance.GenerateGrid();
+        //GridManager.instance.GenerateGrid();
         UpdateGameState(GameState.Spawn_Unit);
     }
 
     private void HandleUnitSpawn()
     {
-        UnitManager.instance.SpawnPlayerBaseUnits();
-        UnitManager.instance.SpawnAiBaseUnits();
+        //UnitManager.instance.SpawnPlayerBaseUnits();
+        //UnitManager.instance.SpawnAiBaseUnits();
         UpdateGameState(GameState.Player_Turn);
     }
 
@@ -98,12 +102,21 @@ public class Gamemanager : MonoBehaviour
 
     private void UpdateAiTroops()
     {
-        
+        playerTroops = GameObject.FindGameObjectsWithTag("Player").ToList();
     }
 
     private void UpdatePlayerTroops()
     {
+        aiTroops = GameObject.FindGameObjectsWithTag("Ai").ToList();
+    }
 
+    private void RefreshPlayerTroops()
+    {
+        UpdatePlayerTroops();
+        foreach (var player in playerTroops)
+        {
+            player.GetComponent<Unit>().RefreshUnit();
+        }
     }
 }
 

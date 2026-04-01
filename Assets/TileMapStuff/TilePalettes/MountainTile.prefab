@@ -112,3 +112,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MountainTile
   highlight: {fileID: 341692945948884462}
+  isWalkable: 0
+  occupiedUnit: {fileID: 0}

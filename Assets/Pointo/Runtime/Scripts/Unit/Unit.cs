@@ -145,7 +145,7 @@ namespace Pointo.Unit
             return Mathf.Abs(target.position.y - transform.position.y) <= range;
         }
 
-        private void RefreshUnit()
+        public void RefreshUnit()
         {
             canMove = true;
             canAttack = true;

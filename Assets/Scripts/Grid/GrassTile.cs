@@ -10,4 +10,14 @@ public class GrassTile : Tile
         var isOffset = (x + y) % 2 == 1;
         GetComponent<SpriteRenderer>().color = isOffset ? offsetColor : baseColor;
     }
+
+    private void OnValidate()
+    {
+        name = $"Tile {transform.position.x} {transform.position.y}";
+    }
+
+    private void Start()
+    {
+        Init((int)transform.position.x, (int)transform.position.y);
+    }
 }

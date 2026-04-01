@@ -12,6 +12,8 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private Transform cam;
 
+    [SerializeField] private Grid grid;
+
     private Dictionary<Vector2, Tile> tiles;
 
     private void Awake()
