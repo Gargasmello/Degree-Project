@@ -12,7 +12,7 @@ public class Money : MonoBehaviour
     const float base_resource_gain = 20;
 
     float resource_aquisition_time;
-    float resources;
+    public float resources;
     float resource_gain;
 
     int controlled_flags; //TODO: implement in other scripts.
@@ -44,9 +44,9 @@ public class Money : MonoBehaviour
         resource_gain = base_resource_gain * controlled_flags;
     }
 
-    void SetCountText()
+    public void SetCountText()
     {
-        string resourceText = $"Money: {resources} (<color=#556B2F>+{resource_gain}</color>)";
+        string resourceText = $"Resources: {resources} (<color=#556B2F>+{resource_gain}</color>)";
         resource_text.text = resourceText;
     }
 

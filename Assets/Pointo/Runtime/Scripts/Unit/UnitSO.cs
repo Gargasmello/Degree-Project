@@ -16,6 +16,7 @@ namespace Pointo.Unit
         public Material mat;
         public float attackStrength = 1.0f;
         public float health = 10.0f;
+        public int movementPoints = 0;
 
         [Tooltip("Time to rest after collecting a Resource")]
         public float coolDownTime = 2f;

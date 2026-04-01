@@ -20,4 +20,5 @@ MonoBehaviour:
   mat: {fileID: 2100000, guid: f3d1c75b725410246bc818db77bd67e5, type: 2}
   attackStrength: 25
   health: 150
+  movementPoints: 2
   coolDownTime: 20

@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Net;
+using UnityEngine;
 using UnityEngine.AI;
+using static UnityEngine.UI.CanvasScaler;
 
 namespace Pointo.Unit
 {
-    [RequireComponent(typeof(MeshRenderer))]
+    //[RequireComponent(typeof(MeshRenderer))]
     [RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(UnitTargetHandler))]
     public abstract class Unit : MonoBehaviour
@@ -14,6 +16,10 @@ namespace Pointo.Unit
         private NavMeshAgent navAgent;
         private Vector3 offset;
         public Tile occupiedTile;
+        private float remainingMovePoints = 0;
+
+        public bool canMove = true;
+        public bool canAttack = true;
 
         private GameObject selectedIcon;
         private Vector3 startingPos;
@@ -32,7 +38,9 @@ namespace Pointo.Unit
             navAgent = GetComponent<NavMeshAgent>();
             UnitTargetHandler = GetComponent<UnitTargetHandler>();
 
-            if (unitSo.mat != null) GetComponent<MeshRenderer>().material = unitSo.mat;
+            remainingMovePoints = unitSo.movementPoints;
+
+            //if (unitSo.mat != null) GetComponent<MeshRenderer>().material = unitSo.mat;
         }
 
         private void Update()
@@ -107,6 +115,41 @@ namespace Pointo.Unit
             var pos = new Vector3(targetPos.x, transform.position.y, targetPos.z);
             var moveToPos = pos + offset;
             navAgent.SetDestination(moveToPos);
+        }
+        public void MoveToTile(Tile tile)
+        {
+            if (RangeCalculation(tile) && canMove == true)
+            {
+                if (occupiedTile != null) occupiedTile.occupiedUnit = null;
+                transform.position = tile.transform.position;
+                tile.occupiedUnit = this;
+                occupiedTile = tile;
+                canMove = false;
+            }
+        }
+
+        private bool RangeCalculation(Tile tile)
+        {
+            return IsWithinXRange(tile.transform) && IsWithinYRange(tile.transform);
+        }
+
+        private bool IsWithinXRange(Transform target)
+        {
+            float range = remainingMovePoints;
+            return Mathf.Abs(target.position.x - transform.position.x) <= range;
+        }
+
+        private bool IsWithinYRange(Transform target)
+        {
+            float range = remainingMovePoints;
+            return Mathf.Abs(target.position.y - transform.position.y) <= range;
+        }
+
+        private void RefreshUnit()
+        {
+            canMove = true;
+            canAttack = true;
+            remainingMovePoints = unitSo.movementPoints;
         }
     }
 }

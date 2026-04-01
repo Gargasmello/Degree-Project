@@ -11,6 +11,8 @@ public class UnitManager : MonoBehaviour
 
     public Unit selectedUnit;
 
+    public GameObject SpawningUnit;
+
     [SerializeField] private int meleeCount;
     [SerializeField] private int rangedCount;
     [SerializeField] private int artilleryCount;

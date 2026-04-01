@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Gamemanager : MonoBehaviour
@@ -9,6 +11,9 @@ public class Gamemanager : MonoBehaviour
     public GameState state;
 
     public static event Action<GameState> StateChanged;
+
+    private List<GameObject> playerTroops;
+    private List<GameObject> aiTroops;
 
     private void Awake()
     {
@@ -70,7 +75,7 @@ public class Gamemanager : MonoBehaviour
     private void HandlePlayerTurn()
     {
         Money.instance.GainResources();
-        
+        //TODO: Refresh move points for all units
     }
 
     private void HandleStart()
@@ -87,6 +92,16 @@ public class Gamemanager : MonoBehaviour
     }
 
     private void HandleEnd()
+    {
+
+    }
+
+    private void UpdateAiTroops()
+    {
+        
+    }
+
+    private void UpdatePlayerTroops()
     {
 
     }

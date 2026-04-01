@@ -34,7 +34,7 @@ public abstract class Tile : MonoBehaviour
 
         if (occupiedUnit != null)
         {
-            if (occupiedUnit.unitSo.unitRaceType == UnitRaceType.Human) UnitManager.instance.SetSelectedUnit((Unit)occupiedUnit);
+            if (occupiedUnit.unitSo.unitRaceType == UnitRaceType.Human || occupiedUnit.unitSo.unitRaceType == UnitRaceType.Elf) UnitManager.instance.SetSelectedUnit((Unit)occupiedUnit);
             else
             {
                 if (UnitManager.instance.selectedUnit != null)
@@ -54,16 +54,18 @@ public abstract class Tile : MonoBehaviour
                 SetUnit(UnitManager.instance.selectedUnit);
                 UnitManager.instance.SetSelectedUnit(null);
             }
+
+            if (UnitManager.instance.SpawningUnit != null)
+            {
+                var spawnedUnit = Instantiate(UnitManager.instance.SpawningUnit);
+                SetUnit(spawnedUnit.GetComponent<Unit>());
+                UnitManager.instance.SpawningUnit = null;
+            }
         }
     }
 
     public void SetUnit(Unit unit)
     {
-        if (unit.occupiedTile != null) unit.occupiedTile.occupiedUnit = null;
-        //unit.SelectUnit();
-        GameObject unitParent = unit.gameObject;
-        unitParent.transform.position = transform.position;
-        occupiedUnit = unit;
-        unit.occupiedTile = this;
+        unit.MoveToTile(this);
     }
 }
