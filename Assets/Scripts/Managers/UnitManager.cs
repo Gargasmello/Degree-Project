@@ -23,30 +23,6 @@ public class UnitManager : MonoBehaviour
         instance = this;
     }
 
-    public void SpawnPlayerBaseUnits()
-    {
-        foreach (var unit in units) 
-        { 
-            var spawnedUnit = Instantiate(unit);
-            var randomSpawnTile = GridManager.instance.GetPlayerSpawnTile();
-
-            randomSpawnTile.SetUnit(spawnedUnit.GetComponent<Unit>());
-            
-        }
-    }
-
-    public void SpawnAiBaseUnits()
-    {
-        foreach (var unit in units)
-        {
-            var spawnedUnit = Instantiate(unit);
-            var randomSpawnTile = GridManager.instance.GetAiSpawnTile();
-
-            randomSpawnTile.SetUnit(spawnedUnit.GetComponent<Knight>());
-
-        }
-    }
-
     public void SetSelectedUnit(Unit selectedUnit)
     {
         this.selectedUnit = selectedUnit;

@@ -14,8 +14,8 @@ public class Gamemanager : MonoBehaviour
 
     public static event Action<GameState> StateChanged;
 
-    private List<GameObject> playerTroops;
-    private List<GameObject> aiTroops;
+    public List<GameObject> playerTroops;
+    public List<GameObject> aiTroops;
 
     private void Awake()
     {
@@ -25,6 +25,8 @@ public class Gamemanager : MonoBehaviour
     private void Start()
     {
         UpdateGameState(GameState.Start);
+        UpdateAiTroops();
+        UpdatePlayerTroops();
     }
 
     public void UpdateGameState(GameState newState)
@@ -62,6 +64,8 @@ public class Gamemanager : MonoBehaviour
     private void HandleEnemyTurn()
     {
         UpdateAiTroops();
+        RefreshTileScores();
+        AiManager.Instance.EvaluateTiles(GridManager.instance.tilesList);
         UpdateGameState(GameState.Player_Turn);
     }
 
@@ -79,19 +83,15 @@ public class Gamemanager : MonoBehaviour
     {
         Money.instance.GainResources();
         RefreshPlayerTroops();
-        //TODO: Refresh move points for all units
     }
 
     private void HandleStart()
     {
-        //GridManager.instance.GenerateGrid();
         UpdateGameState(GameState.Spawn_Unit);
     }
 
     private void HandleUnitSpawn()
     {
-        //UnitManager.instance.SpawnPlayerBaseUnits();
-        //UnitManager.instance.SpawnAiBaseUnits();
         UpdateGameState(GameState.Player_Turn);
     }
 
@@ -116,6 +116,16 @@ public class Gamemanager : MonoBehaviour
         foreach (var player in playerTroops)
         {
             player.GetComponent<Unit>().RefreshUnit();
+        }
+    }
+
+    private void RefreshTileScores()
+    {
+        foreach (var tile in GridManager.instance.tilesList)
+        {
+            tile.GetComponent<Tile>().ArtilleryScore = 0;
+            tile.GetComponent<Tile>().MeleeScore = 0;
+            tile.GetComponent<Tile>().RangedScore = 0;
         }
     }
 }

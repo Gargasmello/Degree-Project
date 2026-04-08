@@ -21,4 +21,5 @@ MonoBehaviour:
   attackStrength: 5
   health: 75
   movementPoints: 4
+  range: 1
   coolDownTime: 0.5

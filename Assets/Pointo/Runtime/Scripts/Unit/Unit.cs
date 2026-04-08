@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.UI.CanvasScaler;
@@ -6,7 +7,7 @@ using static UnityEngine.UI.CanvasScaler;
 namespace Pointo.Unit
 {
     //[RequireComponent(typeof(MeshRenderer))]
-    [RequireComponent(typeof(NavMeshAgent))]
+    //[RequireComponent(typeof(NavMeshAgent))]
     [RequireComponent(typeof(UnitTargetHandler))]
     public abstract class Unit : MonoBehaviour
     {
@@ -25,6 +26,8 @@ namespace Pointo.Unit
         private Vector3 startingPos;
 
         protected UnitTargetHandler UnitTargetHandler;
+
+        public List<GameObject> tilesInRange;
 
         public UnitRaceType UnitRaceType => unitSo.unitRaceType;
 
@@ -130,19 +133,8 @@ namespace Pointo.Unit
 
         private bool RangeCalculation(Tile tile)
         {
-            return IsWithinXRange(tile.transform) && IsWithinYRange(tile.transform);
-        }
 
-        private bool IsWithinXRange(Transform target)
-        {
-            float range = remainingMovePoints;
-            return Mathf.Abs(target.position.x - transform.position.x) <= range;
-        }
-
-        private bool IsWithinYRange(Transform target)
-        {
-            float range = remainingMovePoints;
-            return Mathf.Abs(target.position.y - transform.position.y) <= range;
+            return Calc.IsWithinXRange(tile.transform, transform, remainingMovePoints) && Calc.IsWithinYRange(tile.transform, transform, remainingMovePoints);
         }
 
         public void RefreshUnit()
@@ -150,6 +142,11 @@ namespace Pointo.Unit
             canMove = true;
             canAttack = true;
             remainingMovePoints = unitSo.movementPoints;
+        }
+
+        private void GetTilesInRange()
+        {
+
         }
     }
 }
