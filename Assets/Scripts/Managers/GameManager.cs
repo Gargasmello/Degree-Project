@@ -21,6 +21,7 @@ public class Gamemanager : MonoBehaviour
     public TextMeshProUGUI winText, loseText;
 
     public float turns, troopsCreated;
+    public bool won;
 
     private void Awake()
     {
@@ -79,6 +80,8 @@ public class Gamemanager : MonoBehaviour
         if (GridManager.instance.flagTiles.All(tile => tile.GetComponent<FlagTile>().playerControl) || aiTroops == null)
         {
             winText.gameObject.SetActive(true);
+            won = true;
+            Debug.Log($"Player win {won}, turns played {turns}, troops created {troopsCreated}");
         }
         else
         {
@@ -91,6 +94,8 @@ public class Gamemanager : MonoBehaviour
         if (GridManager.instance.flagTiles.All(tile => tile.GetComponent<FlagTile>().aiControl) || playerTroops == null)
         {
             loseText.gameObject.SetActive(true);
+            won = false;
+            Debug.Log($"Player win {won}, turns played {turns}, troops created {troopsCreated}");
         }
         else
         {
@@ -100,6 +105,7 @@ public class Gamemanager : MonoBehaviour
 
     private void HandlePlayerTurn()
     {
+        turns += 1;
         Money.instance.GainResourcesPlayer(Money.instance.UpdateFlagOwnership());
         RefreshPlayerTroops();
     }
