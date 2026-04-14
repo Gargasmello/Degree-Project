@@ -27,6 +27,7 @@ public class TurnButton : MonoBehaviour
     public void EndTurn()
     {
         if (Gamemanager.instance.state != GameState.Player_Turn) return;
-        Gamemanager.instance.UpdateGameState(GameState.Enemy_Turn);
+        Gamemanager.instance.turns += 1;
+        Gamemanager.instance.UpdateGameState(GameState.Lost);
     }
 }

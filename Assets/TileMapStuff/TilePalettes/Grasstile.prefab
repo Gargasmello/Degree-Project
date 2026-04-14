@@ -623,6 +623,7 @@ MonoBehaviour:
   meleeScoreText: {fileID: 546801764606354170}
   rangedScoreText: {fileID: 6666511193562113743}
   artilleryScoreText: {fileID: 5760406373204450739}
+  inRangeIcon: {fileID: 0}
   occupiedUnit: {fileID: 0}
   baseColor: {r: 0.07475969, g: 0.4528302, b: 0.12028819, a: 1}
   offsetColor: {r: 0.01966893, g: 0.3207547, b: 0.076658815, a: 1}

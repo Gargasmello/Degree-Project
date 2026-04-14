@@ -25,6 +25,20 @@ public class UnitManager : MonoBehaviour
 
     public void SetSelectedUnit(Unit selectedUnit)
     {
-        this.selectedUnit = selectedUnit;
+        if (this.selectedUnit == null)
+        {
+            this.selectedUnit = selectedUnit;
+            this.selectedUnit.SelectUnit();
+            this.selectedUnit.GetEnemiesInRange();
+            this.selectedUnit.ActivateTilesInRangeIcons();
+        }
+    }
+
+    public void DeselectSelectedUnit()
+    {
+        this.selectedUnit.DeselectUnit();
+        this.selectedUnit.ClearEnemiesInRangeIcons();
+        this.selectedUnit.DeactivateTilesInRangeIcons();
+        this.selectedUnit = null;
     }
 }

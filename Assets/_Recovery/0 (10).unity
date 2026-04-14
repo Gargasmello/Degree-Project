@@ -381,10 +381,6 @@ MonoBehaviour:
   state: 0
   playerTroops: []
   aiTroops: []
-  winText: {fileID: 915582310}
-  loseText: {fileID: 837496533}
-  turns: 0
-  troopsCreated: 0
 --- !u!4 &32203319
 Transform:
   m_ObjectHideFlags: 0
@@ -5406,7 +5402,7 @@ GameObject:
   - component: {fileID: 837496533}
   m_Layer: 5
   m_Name: Lose Text
-  m_TagString: LoseText
+  m_TagString: EndGameText
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5737,7 +5733,7 @@ GameObject:
   - component: {fileID: 915582310}
   m_Layer: 5
   m_Name: Win Text
-  m_TagString: WinText
+  m_TagString: EndGameText
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12096,7 +12092,7 @@ Transform:
   m_GameObject: {fileID: 1779797755}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.5, y: 3, z: -10}
+  m_LocalPosition: {x: 9, y: 3, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13124,8 +13120,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -362, y: -25}
-  m_SizeDelta: {x: 724, y: 50}
+  m_AnchoredPosition: {x: -149.38635, y: -25}
+  m_SizeDelta: {x: 298.7726, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1935129514
 MonoBehaviour:

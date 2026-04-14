@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using UnityEngine;
 using UnityEngine.AI;
@@ -19,10 +20,13 @@ namespace Pointo.Unit
         public Tile occupiedTile;
         private float remainingMovePoints = 0;
 
+        private float Health = 0;
+
         public bool canMove = true;
         public bool canAttack = true;
 
-        private GameObject selectedIcon;
+        [SerializeField]private GameObject selectedIcon;
+        private GameObject inRangeIcon;
         private Vector3 startingPos;
 
         protected UnitTargetHandler UnitTargetHandler;
@@ -33,8 +37,10 @@ namespace Pointo.Unit
 
         protected void Start()
         {
-            selectedIcon = transform.Find("Selector").gameObject;
-            selectedIcon.SetActive(false);
+            if(unitSo.unitRaceType == UnitRaceType.Elf)
+            {
+                inRangeIcon = transform.Find("InRangeIcon").gameObject;
+            }
 
             startingPos = transform.position;
 
@@ -42,13 +48,18 @@ namespace Pointo.Unit
             UnitTargetHandler = GetComponent<UnitTargetHandler>();
 
             remainingMovePoints = unitSo.movementPoints;
+            Health = unitSo.health;
 
-            //if (unitSo.mat != null) GetComponent<MeshRenderer>().material = unitSo.mat;
+
         }
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.G)) navAgent.SetDestination(startingPos);
+            if (Health <= 0)
+            {
+                //TODO: Might have to remove occupied unit and remove from list
+                Destroy(gameObject);
+            }
         }
 
         protected void OnEnable()
@@ -76,14 +87,11 @@ namespace Pointo.Unit
         public void SelectUnit()
         {
             selectedIcon.SetActive(true);
-            IsSelected = true;
         }
 
         public void DeselectUnit()
         {
             selectedIcon.SetActive(false);
-            offset = Vector3.zero;
-            IsSelected = false;
         }
 
         public void CalculateOffset(Vector3 _center)
@@ -121,7 +129,7 @@ namespace Pointo.Unit
         }
         public void MoveToTile(Tile tile)
         {
-            if (RangeCalculation(tile) && canMove == true)
+            if (RangeCalculation(tile) && canMove == true && tile.occupiedUnit == null)
             {
                 if (occupiedTile != null) occupiedTile.occupiedUnit = null;
                 transform.position = tile.transform.position;
@@ -134,7 +142,7 @@ namespace Pointo.Unit
         private bool RangeCalculation(Tile tile)
         {
 
-            return Calc.IsWithinXRange(tile.transform, transform, remainingMovePoints) && Calc.IsWithinYRange(tile.transform, transform, remainingMovePoints);
+            return Calc.IsWithinRange(tile.transform, transform, remainingMovePoints);
         }
 
         public void RefreshUnit()
@@ -144,9 +152,251 @@ namespace Pointo.Unit
             remainingMovePoints = unitSo.movementPoints;
         }
 
+        public void MoveTowardEnemy()
+        {
+            Vector2 moveDir = GetMoveDirection(transform.position, ClosestUnit());
+            GetTilesInRange();
+            switch (unitSo.unitType)
+            {
+                case UnitType.Knight:
+                    tilesInRange.Sort((a, b) => b.GetComponent<Tile>().MeleeScore.CompareTo(a.GetComponent<Tile>().MeleeScore));
+                    break;
+                case UnitType.Archer:
+                    tilesInRange.Sort((a, b) => b.GetComponent<Tile>().RangedScore.CompareTo(a.GetComponent<Tile>().RangedScore));
+                    break;
+                case UnitType.Catapult:
+                    tilesInRange.Sort((a, b) => b.GetComponent<Tile>().ArtilleryScore.CompareTo(a.GetComponent<Tile>().ArtilleryScore));
+                    break;
+            }
+
+            //Made by claude
+            GameObject bestTile = tilesInRange.FirstOrDefault(tileObj =>
+            {
+                Vector2 toTile = tileObj.transform.position - transform.position;
+                return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
+            });
+
+            if(bestTile != null)
+            {
+                bestTile.GetComponent<Tile>().SetUnit(this);
+            }
+
+            tilesInRange.Clear();
+        }
+
+        public void MoveTowardFlag()
+        {
+            Vector2 moveDir = GetMoveDirection(transform.position, ClosestFlag());
+            GetTilesInRange();
+            switch (unitSo.unitType)
+            {
+                case UnitType.Knight:
+                    tilesInRange.Sort((a, b) => b.GetComponent<Tile>().MeleeScore.CompareTo(a.GetComponent<Tile>().MeleeScore));
+                    break;
+                case UnitType.Archer:
+                    tilesInRange.Sort((a, b) => b.GetComponent<Tile>().RangedScore.CompareTo(a.GetComponent<Tile>().RangedScore));
+                    break;
+                case UnitType.Catapult:
+                    tilesInRange.Sort((a, b) => b.GetComponent<Tile>().ArtilleryScore.CompareTo(a.GetComponent<Tile>().ArtilleryScore));
+                    break;
+            }
+
+            //Made by claude
+            GameObject bestTile = tilesInRange.FirstOrDefault(tileObj =>
+            {
+                Vector2 toTile = tileObj.transform.position - transform.position;
+                return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
+            });
+
+            if (bestTile != null)
+            {
+                bestTile.GetComponent<Tile>().SetUnit(this);
+            }
+
+            tilesInRange.Clear();
+        }
+
+        public void MoveTowardFlagDefence()
+        {
+            Vector2 moveDir = GetMoveDirection(transform.position, ClosestFlag());
+            GetTilesInRange();
+            switch (unitSo.unitType)
+            {
+                case UnitType.Knight:
+                    tilesInRange.Sort((a, b) => b.GetComponent<Tile>().MeleeScore.CompareTo(a.GetComponent<Tile>().MeleeScore));
+                    break;
+                case UnitType.Archer:
+                    tilesInRange.Sort((a, b) => b.GetComponent<Tile>().RangedScore.CompareTo(a.GetComponent<Tile>().RangedScore));
+                    break;
+                case UnitType.Catapult:
+                    tilesInRange.Sort((a, b) => b.GetComponent<Tile>().ArtilleryScore.CompareTo(a.GetComponent<Tile>().ArtilleryScore));
+                    break;
+            }
+
+            //Made by claude
+            GameObject bestTile = tilesInRange.FirstOrDefault(tileObj =>
+            {
+                Vector2 toTile = tileObj.transform.position - transform.position;
+                return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
+            });
+
+            if (bestTile != null)
+            {
+                bestTile.GetComponent<Tile>().SetUnit(this);
+            }
+
+            tilesInRange.Clear();
+        }
+
         private void GetTilesInRange()
         {
+            foreach (var tile in GridManager.instance.tilesList)
+            {
+                if (RangeCalculation(tile.GetComponent<Tile>()))
+                {
+                    tilesInRange.Add(tile);
+                }
+            }
+        }
 
+        //Claude made
+        private Vector2 ClosestUnit()
+        {
+            Vector2 closest = Vector2.zero;
+            float minDistance = float.MaxValue;
+
+            foreach (var playerPos in Gamemanager.instance.playerTroops)
+            {
+                float dist = Mathf.Abs(transform.position.x - playerPos.transform.position.x) + Mathf.Abs(transform.position.y - playerPos.transform.position.y);
+                if (dist < minDistance)
+                {
+                    minDistance = dist;
+                    
+                    closest = new(playerPos.transform.position.x, playerPos.transform.position.y);
+                }
+            }
+
+            return closest;
+        }
+
+        //Copy of code above
+        private Vector2 ClosestFlag()
+        {
+            Vector2 closest = Vector2.zero;
+            float minDistance = float.MaxValue;
+
+            foreach (var flag in GridManager.instance.tilesList)
+            {
+                if (flag.GetComponent<FlagTile>() != null)
+                {
+                    float dist = Mathf.Abs(transform.position.x - flag.transform.position.x) + Mathf.Abs(transform.position.y - flag.transform.position.y);
+                    if (dist < minDistance)
+                    {
+                        minDistance = dist;
+
+                        closest = new(flag.transform.position.x, flag.transform.position.y);
+                    }
+                }
+            }
+
+            return closest;
+        }
+
+        //Claude made
+        private Vector2 GetMoveDirection(Vector2 from, Vector2 to)
+        {
+            float dx = to.x - from.x;
+            float dy = to.y - from.y;
+
+            if (Mathf.Abs(dx) >= Mathf.Abs(dy))
+                return new Vector2(Mathf.Sign(dx), 0);
+            else
+                return new Vector2(0, Mathf.Sign(dy));
+        }
+
+        public void GetEnemiesInRange()
+        {
+            foreach(var enemy in Gamemanager.instance.aiTroops)
+            {
+                if (Calc.IsWithinRange(enemy.transform, transform, unitSo.range))
+                {
+                    enemy.GetComponent<Unit>().inRangeIcon.SetActive(true);
+                }
+            }
+        }
+
+        public void ClearEnemiesInRangeIcons()
+        {
+            foreach (var enemy in Gamemanager.instance.aiTroops)
+            {
+                if (enemy.GetComponent<Unit>().inRangeIcon != null)
+                {
+                    enemy.GetComponent<Unit>().inRangeIcon.SetActive(false);
+                }
+            }
+        }
+
+        public void ActivateTilesInRangeIcons()
+        {
+            GetTilesInRange();
+            foreach (var tile in tilesInRange)
+            {
+                if (canMove == true) tile.GetComponent<Tile>().inRangeIcon.SetActive(true);
+            }
+        }
+
+        public void DeactivateTilesInRangeIcons()
+        {
+            foreach(var tile in tilesInRange)
+            {
+                tile.GetComponent<Tile>().inRangeIcon.SetActive(false);
+            }
+            tilesInRange.Clear();
+        }
+
+        public void Attack(Unit enemy)
+        {
+            if (unitSo.unitType == UnitType.Catapult)
+            {
+                if (unitSo.unitRaceType == UnitRaceType.Human)
+                {
+                    foreach (var enemies in Gamemanager.instance.aiTroops)
+                    {
+                        if (Calc.IsWithinRange(enemies.transform, transform, unitSo.range + 1) && canAttack)
+                        {
+                            enemies.GetComponent<Unit>().Health -= unitSo.attackStrength;
+
+                            canAttack = false;
+
+                            Debug.Log($"Attacked {enemies}");
+                        }
+                    }
+                }
+                else if (unitSo.unitRaceType == UnitRaceType.Elf)
+                {
+                    foreach (var enemies in Gamemanager.instance.playerTroops)
+                    {
+                        if (Calc.IsWithinRange(enemies.transform, transform, unitSo.range + 1) && canAttack)
+                        {
+                            enemies.GetComponent<Unit>().Health -= unitSo.attackStrength;
+
+                            canAttack = false;
+
+                            Debug.Log($"Attacked {enemies}");
+                        }
+                    }
+                }
+            }
+            else if (Calc.IsWithinRange(enemy.transform, transform, unitSo.range) && canAttack)
+            {
+                enemy.Health -= unitSo.attackStrength;
+
+                canAttack = false;
+
+                Debug.Log($"Attacked {enemy}");
+
+                //TODO: Add logic for artillery and make arrow point to enemy
+            }
         }
     }
 }

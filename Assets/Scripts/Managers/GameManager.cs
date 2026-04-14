@@ -3,6 +3,7 @@ using Pointo.Unit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Gamemanager : MonoBehaviour
@@ -17,6 +18,10 @@ public class Gamemanager : MonoBehaviour
     public List<GameObject> playerTroops;
     public List<GameObject> aiTroops;
 
+    public TextMeshProUGUI winText, loseText;
+
+    public float turns, troopsCreated;
+
     private void Awake()
     {
         instance = this;
@@ -25,8 +30,7 @@ public class Gamemanager : MonoBehaviour
     private void Start()
     {
         UpdateGameState(GameState.Start);
-        UpdateAiTroops();
-        UpdatePlayerTroops();
+        UpdateTroops();
     }
 
     public void UpdateGameState(GameState newState)
@@ -37,9 +41,6 @@ public class Gamemanager : MonoBehaviour
         {
             case GameState.Start:
                 HandleStart();
-                break;
-            case GameState.End:
-                HandleEnd();
                 break;
             case GameState.Spawn_Unit:
                 HandleUnitSpawn();
@@ -63,25 +64,43 @@ public class Gamemanager : MonoBehaviour
 
     private void HandleEnemyTurn()
     {
-        UpdateAiTroops();
+        RefreshAiTroops();
         RefreshTileScores();
+        Money.instance.GainResourcesAi(Money.instance.UpdateFlagOwnership());
+        AiManager.Instance.SpawnUnit();
         AiManager.Instance.EvaluateTiles(GridManager.instance.tilesList);
-        UpdateGameState(GameState.Player_Turn);
+        AiManager.Instance.MoveUnits();
+        AiManager.Instance.AttackEnemies();
+        UpdateGameState(GameState.Won);
     }
 
     private void HandleWin()
     {
-
+        if (GridManager.instance.flagTiles.All(tile => tile.GetComponent<FlagTile>().playerControl) || aiTroops == null)
+        {
+            winText.gameObject.SetActive(true);
+        }
+        else
+        {
+            UpdateGameState(GameState.Player_Turn);
+        }
     }
 
     private void HandleLoss()
     {
-
+        if (GridManager.instance.flagTiles.All(tile => tile.GetComponent<FlagTile>().aiControl) || playerTroops == null)
+        {
+            loseText.gameObject.SetActive(true);
+        }
+        else
+        {
+            UpdateGameState(GameState.Enemy_Turn);
+        }
     }
 
     private void HandlePlayerTurn()
     {
-        Money.instance.GainResources();
+        Money.instance.GainResourcesPlayer(Money.instance.UpdateFlagOwnership());
         RefreshPlayerTroops();
     }
 
@@ -95,25 +114,25 @@ public class Gamemanager : MonoBehaviour
         UpdateGameState(GameState.Player_Turn);
     }
 
-    private void HandleEnd()
-    {
-
-    }
-
-    private void UpdateAiTroops()
+    private void UpdateTroops()
     {
         playerTroops = GameObject.FindGameObjectsWithTag("Player").ToList();
-    }
-
-    private void UpdatePlayerTroops()
-    {
         aiTroops = GameObject.FindGameObjectsWithTag("Ai").ToList();
     }
-
     private void RefreshPlayerTroops()
     {
-        UpdatePlayerTroops();
+        UpdateTroops();
         foreach (var player in playerTroops)
+        {
+            player.GetComponent<Unit>().RefreshUnit();
+        }
+    }
+
+    private void RefreshAiTroops()
+    {
+
+        UpdateTroops();
+        foreach (var player in aiTroops)
         {
             player.GetComponent<Unit>().RefreshUnit();
         }

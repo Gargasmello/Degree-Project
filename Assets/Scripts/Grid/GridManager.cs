@@ -12,11 +12,12 @@ public class GridManager : MonoBehaviour
 
     [SerializeField] private Transform cam;
 
-    [SerializeField] private Grid grid;
+    [SerializeField] public Grid grid;
 
     private Dictionary<Vector2, Tile> tiles;
 
     public List<GameObject> tilesList;
+    public List<GameObject> flagTiles;
 
     private void Awake()
     {
@@ -26,6 +27,12 @@ public class GridManager : MonoBehaviour
     private void Start()
     {
         tilesList = GameObject.FindGameObjectsWithTag("Tile").ToList();
+        foreach (var tile in tilesList) {
+            if (tile.GetComponent<FlagTile>() != null)
+            {
+                flagTiles.Add(tile);
+            }
+        }
     }
 
     public Tile GetTileFromPosition(Vector2 position)

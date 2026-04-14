@@ -18,8 +18,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   mat: {fileID: 2100000, guid: 92c2e1d872247124593e7368c108befa, type: 2}
-  attackStrength: 10
+  attackStrength: 15
   health: 30
-  movementPoints: 3
-  range: 3
+  movementPoints: 2
+  range: 2
   coolDownTime: 2

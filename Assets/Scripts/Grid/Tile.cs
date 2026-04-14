@@ -18,11 +18,18 @@ public abstract class Tile : MonoBehaviour
     public TextMeshProUGUI rangedScoreText;
     public TextMeshProUGUI artilleryScoreText;
 
+    public GameObject inRangeIcon;
+
     public Unit occupiedUnit;
     public bool Walkable => isWalkable && occupiedUnit == null;
 
     public virtual void Init(int x, int y)
     {
+    }
+
+    public void Start()
+    {
+        inRangeIcon = transform.Find("InRangeOfIcon").gameObject;
     }
 
     public void Update()
@@ -48,15 +55,15 @@ public abstract class Tile : MonoBehaviour
 
         if (occupiedUnit != null)
         {
-            if (occupiedUnit.unitSo.unitRaceType == UnitRaceType.Human || occupiedUnit.unitSo.unitRaceType == UnitRaceType.Elf) UnitManager.instance.SetSelectedUnit((Unit)occupiedUnit);
+            if (occupiedUnit.unitSo.unitRaceType == UnitRaceType.Human) UnitManager.instance.SetSelectedUnit((Unit)occupiedUnit);
             else
             {
                 if (UnitManager.instance.selectedUnit != null)
                 {
                     var enemy = (Unit)occupiedUnit;
                     //TODO: make attack logic and use it here
-                    Destroy(enemy.gameObject);
-                    UnitManager.instance.SetSelectedUnit(null);
+                    UnitManager.instance.selectedUnit.Attack(enemy);
+                    UnitManager.instance.DeselectSelectedUnit();
                 }
             }
             
@@ -66,14 +73,16 @@ public abstract class Tile : MonoBehaviour
             if (UnitManager.instance.selectedUnit != null)
             {
                 SetUnit(UnitManager.instance.selectedUnit);
-                UnitManager.instance.SetSelectedUnit(null);
+                UnitManager.instance.DeselectSelectedUnit();
             }
 
             if (UnitManager.instance.SpawningUnit != null)
             {
                 var spawnedUnit = Instantiate(UnitManager.instance.SpawningUnit);
+                spawnedUnit.transform.position = transform.position;
                 SetUnit(spawnedUnit.GetComponent<Unit>());
                 UnitManager.instance.SpawningUnit = null;
+                Gamemanager.instance.troopsCreated += 1;
             }
         }
     }
@@ -83,13 +92,29 @@ public abstract class Tile : MonoBehaviour
         unit.MoveToTile(this);
     }
 
-    public void TileInRangeOfPlayerUnit(GameObject tile)
+    public void TileInRangeOfPlayerUnit()
     {
         foreach(var playerUnit in Gamemanager.instance.playerTroops)
         {
             if (playerUnit.GetComponent<Unit>().unitSo.unitType == UnitType.Knight && RangeCalculation(playerUnit.GetComponent<Unit>())) MeleeScore += 1;
             else if (playerUnit.GetComponent<Unit>().unitSo.unitType == UnitType.Archer && RangeCalculation(playerUnit.GetComponent<Unit>())) RangedScore += 1;
             else if (playerUnit.GetComponent<Unit>().unitSo.unitType == UnitType.Catapult && RangeCalculation(playerUnit.GetComponent<Unit>())) ArtilleryScore += 1;
+        }
+    }
+
+    public void FlagTilePoints()
+    {
+        if (GetComponent<FlagTile>() && GetComponent<FlagTile>().aiControl == false)
+        {
+            MeleeScore += 3;
+            RangedScore += 3;
+            ArtilleryScore += 3;
+        }
+        else if (GetComponent<FlagTile>() && AiManager.Instance.aiMode == AiMode.DEFEND)
+        {
+            MeleeScore += 0;
+            RangedScore += 5;
+            ArtilleryScore += 5;
         }
     }
 

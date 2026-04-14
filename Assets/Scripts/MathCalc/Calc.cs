@@ -11,4 +11,9 @@ public class Calc : MonoBehaviour
     {
         return Mathf.Abs(target.position.y - current.position.y) <= range;
     }
+
+    public static bool IsWithinRange(Transform target, Transform current, float range)
+    {
+        return IsWithinXRange(target, current, range) && IsWithinYRange(target, current, range);
+    }
 }

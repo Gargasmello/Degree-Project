@@ -594,6 +594,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile 0 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5307355383152376929, guid: 5c89044ccd9db0f46b2ec1e203090302,
+        type: 3}
+      propertyPath: m_TagString
+      value: Tile
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -645,6 +650,9 @@ MonoBehaviour:
   meleeScoreText: {fileID: 824145894831208892}
   rangedScoreText: {fileID: 1120352091686010676}
   artilleryScoreText: {fileID: 7815958748112940178}
+  inRangeIcon: {fileID: 0}
   occupiedUnit: {fileID: 0}
-  playerColor: {r: 1, g: 0, b: 0, a: 1}
-  AiColor: {r: 0, g: 0.7571975, b: 1, a: 1}
+  playerColor: {r: 0.022027409, g: 0.5975271, b: 0.9339623, a: 1}
+  AiColor: {r: 0.9716981, g: 0.1688138, b: 0.022917405, a: 1}
+  playerControl: 0
+  aiControl: 0

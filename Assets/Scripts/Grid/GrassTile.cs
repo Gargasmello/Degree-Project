@@ -16,8 +16,9 @@ public class GrassTile : Tile
         name = $"Tile {transform.position.x} {transform.position.y}";
     }
 
-    private void Start()
+    private new void Start()
     {
         Init((int)transform.position.x, (int)transform.position.y);
+        inRangeIcon = transform.Find("InRangeOfIcon").gameObject;
     }
 }

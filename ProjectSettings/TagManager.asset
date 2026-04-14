@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ai
   - Tile
+  - WinText
+  - LoseText
   layers:
   - Default
   - TransparentFX

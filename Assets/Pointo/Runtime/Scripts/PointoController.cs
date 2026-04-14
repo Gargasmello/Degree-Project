@@ -147,12 +147,12 @@ public class PointoController : MonoBehaviour
 
     #region Unit Handling
 
-    private void ClearAllUnits()
-    {
-        foreach (var unit in selectedUnits) unit.DeselectUnit();
+    //private void ClearAllUnits()
+    //{
+    //    foreach (var unit in selectedUnits) unit.DeselectUnit();
 
-        selectedUnits.Clear();
-    }
+    //    selectedUnits.Clear();
+    //}
 
     //private void SelectAllUnits()
     //{

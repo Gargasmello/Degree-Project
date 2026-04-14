@@ -32,11 +32,45 @@ public class Money : MonoBehaviour
         SetCountText();
     }
 
-    public void GainResources()
+    public int UpdateFlagOwnership()
     {
+        int controlledFlags = 0;
+        if (Gamemanager.instance.state == GameState.Player_Turn)
+        {
+            foreach (var flag in GridManager.instance.flagTiles)
+            {
+                if (flag.GetComponent<FlagTile>().playerControl == true) controlledFlags += 1;
+            }
+        }
+        else if (Gamemanager.instance.state == GameState.Enemy_Turn)
+        {
+            foreach (var flag in GridManager.instance.flagTiles)
+            {
+                if (flag.GetComponent<FlagTile>().aiControl == true) controlledFlags += 1;
+            }
+        }
+
+        return controlledFlags;
+    }
+
+    public void GainResourcesPlayer(int controlledFlags)
+    {
+        controlled_flags = controlledFlags;
+
+        SetResourceGain();
+
         resources += resource_gain;
 
         SetCountText();
+    }
+
+    public void GainResourcesAi(int controlledFlags)
+    {
+        controlled_flags = controlledFlags;
+
+        SetResourceGain();
+
+        AiManager.Instance.resources += resource_gain;
     }
 
     void SetResourceGain()
