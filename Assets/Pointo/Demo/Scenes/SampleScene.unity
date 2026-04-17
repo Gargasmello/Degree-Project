@@ -385,6 +385,7 @@ MonoBehaviour:
   loseText: {fileID: 837496533}
   turns: 0
   troopsCreated: 0
+  won: 0
 --- !u!4 &32203319
 Transform:
   m_ObjectHideFlags: 0
@@ -7534,6 +7535,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UnitRecruitmentButton
   unit: {fileID: 4486532009876145436, guid: 09df10d89afd27f45af6b1b3d0559ce6, type: 3}
   cost: 60
+--- !u!1 &1154784773
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1154784774}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1154784774
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154784773}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1525997232}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1158300611
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9624,6 +9656,7 @@ Transform:
   - {fileID: 32203319}
   - {fileID: 1348231358}
   - {fileID: 1538343008}
+  - {fileID: 1154784774}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1530672541
@@ -9750,6 +9783,7 @@ MonoBehaviour:
   - {fileID: 7003450288438396599, guid: af7272440144f64488e98f14f3ac222e, type: 3}
   - {fileID: 4486532009876145436, guid: 9a4d1639b0b07894b9a8b2b787006986, type: 3}
   firstColumnTiles: []
+  aiMode: 0
 --- !u!1001 &1542561299
 PrefabInstance:
   m_ObjectHideFlags: 0
