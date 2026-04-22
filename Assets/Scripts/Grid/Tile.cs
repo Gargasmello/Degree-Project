@@ -40,11 +40,18 @@ public abstract class Tile : MonoBehaviour
     private void OnMouseEnter()
     {
         highlight.SetActive(true);
+        if (UnitManager.instance.selectedUnit != null)
+        {
+            Vector3 unitPos = UnitManager.instance.selectedUnit.transform.position;
+            Vector3 tilePos = transform.position;
+            ArrowPointer.instance.ShowArrow(unitPos, tilePos);
+        }
     }
 
     private void OnMouseExit()
     {
         highlight.SetActive(false);
+        ArrowPointer.instance.HideArrow();
     }
 
     private void OnMouseDown()

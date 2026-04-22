@@ -20,7 +20,7 @@ namespace Pointo.Unit
         public Tile occupiedTile;
         private float remainingMovePoints = 0;
 
-        private float Health = 0;
+        public float Health = 0;
 
         public bool canMove = true;
         public bool canAttack = true;
@@ -34,6 +34,9 @@ namespace Pointo.Unit
         public List<GameObject> tilesInRange;
 
         public UnitRaceType UnitRaceType => unitSo.unitRaceType;
+
+        public delegate void HurtAction();
+        public static event HurtAction OnHurt;
 
         protected void Start()
         {
@@ -364,11 +367,11 @@ namespace Pointo.Unit
                     {
                         if (Calc.IsWithinRange(enemies.transform, transform, unitSo.range + 1) && canAttack)
                         {
-                            enemies.GetComponent<Unit>().Health -= unitSo.attackStrength;
+                            enemies.GetComponent<Unit>().Health -= unitSo.attackStrength * GetAttackModifier(enemies.GetComponent<Unit>());
 
                             canAttack = false;
 
-                            Debug.Log($"Attacked {enemies}");
+                            OnHurt?.Invoke();
                         }
                     }
                 }
@@ -378,9 +381,11 @@ namespace Pointo.Unit
                     {
                         if (Calc.IsWithinRange(enemies.transform, transform, unitSo.range + 1) && canAttack)
                         {
-                            enemies.GetComponent<Unit>().Health -= unitSo.attackStrength;
+                            enemies.GetComponent<Unit>().Health -= unitSo.attackStrength * GetAttackModifier(enemies.GetComponent<Unit>());
 
                             canAttack = false;
+
+                            OnHurt?.Invoke();
 
                             Debug.Log($"Attacked {enemies}");
                         }
@@ -389,14 +394,58 @@ namespace Pointo.Unit
             }
             else if (Calc.IsWithinRange(enemy.transform, transform, unitSo.range) && canAttack)
             {
-                enemy.Health -= unitSo.attackStrength;
+                enemy.Health -= unitSo.attackStrength * GetAttackModifier(enemy.GetComponent<Unit>());
 
                 canAttack = false;
+
+                OnHurt?.Invoke();
 
                 Debug.Log($"Attacked {enemy}");
 
                 //TODO: Add logic for artillery and make arrow point to enemy
             }
+        }
+
+        private float GetAttackModifier(Unit enemy)
+        {
+            switch(enemy.unitSo.unitType)
+            {
+                case (UnitType.Knight):
+                    switch(unitSo.unitType)
+                    {
+                        case (UnitType.Knight):
+                            return 2.0f;
+                        case (UnitType.Archer):
+                            return 0.5f;
+                        case (UnitType.Catapult):
+                            return 2.0f;
+                    }
+                    break;
+                case (UnitType.Archer):
+                    switch (unitSo.unitType)
+                    {
+                        case (UnitType.Knight):
+                            return 5.0f;
+                        case (UnitType.Archer):
+                            return 1.0f;
+                        case (UnitType.Catapult):
+                            return 0.5f;
+                    }
+                    break;
+                case (UnitType.Catapult):
+                    switch (unitSo.unitType)
+                    {
+                        case (UnitType.Knight):
+                            return 10.0f;
+                        case (UnitType.Archer):
+                            return 2.0f;
+                        case (UnitType.Catapult):
+                            return 1.0f;
+                    }
+                    break;
+            }
+
+            return 1.0f;
         }
     }
 }

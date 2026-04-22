@@ -1,16 +1,22 @@
+using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class AudioManage : MonoBehaviour
+public class AudioManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static AudioManager instance;
+
+    private AudioSource m_AudioSource;
+    [SerializeField] private List<AudioClip> sounds;
+
+    private void Awake()
     {
-        
+        instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void PlaySound(AudioClip audio, int volume)
     {
+        
         
     }
 }
