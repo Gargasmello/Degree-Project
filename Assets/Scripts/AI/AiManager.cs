@@ -1,6 +1,8 @@
 using NUnit.Framework;
 using Pointo.Unit;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
+using UnityEditor.SpeedTree.Importer;
 using UnityEngine;
 using static UnityEngine.UI.CanvasScaler;
 using Unit = Pointo.Unit.Unit;
@@ -11,6 +13,13 @@ public enum AiMode
     DEFEND,
     GATHERING,
     INACTIVE
+}
+
+public enum GameBalance
+{
+    AIDOMINANT,
+    EVEN,
+    PLAYERDOMINANT
 }
 
 public class AiManager : MonoBehaviour
@@ -24,7 +33,7 @@ public class AiManager : MonoBehaviour
     [SerializeField] private List<GameObject> units;
     public List<GameObject> firstColumnTiles;
 
-    public AiMode aiMode;
+    public AiMode state;
 
     private void Awake()
     {
@@ -89,23 +98,66 @@ public class AiManager : MonoBehaviour
         }
     }
 
+    private GameBalance EvaluateGameBalance()
+    {
+        GameBalance balance = new();
+
+        int balanceScore = 0;
+
+        if (Gamemanager.instance.playerTroops.Count >= Gamemanager.instance.aiTroops.Count) balanceScore += Gamemanager.instance.playerTroops.Count - Gamemanager.instance.aiTroops.Count;
+        else if (Gamemanager.instance.aiTroops.Count >= Gamemanager.instance.playerTroops.Count) balanceScore -= Gamemanager.instance.aiTroops.Count - Gamemanager.instance.playerTroops.Count;
+
+        int aiFlags = 0, playerFlags = 0;
+        foreach (var tile in GridManager.instance.flagTiles)
+        {
+            if (tile.GetComponent<FlagTile>().playerControl) playerFlags += 1;
+            else if (tile.GetComponent<FlagTile>().aiControl) aiFlags += 1;
+        }
+
+        if (aiFlags > playerFlags) balanceScore -= aiFlags - playerFlags;
+        else if (playerFlags > aiFlags) balanceScore += playerFlags - aiFlags;
+
+        if (balanceScore > 4) balance = GameBalance.PLAYERDOMINANT;
+        else if (balanceScore < -4) balance = GameBalance.AIDOMINANT;
+        else balance = GameBalance.EVEN;
+
+        return balance;
+    }
+
+    public void UpdateAiState()
+    {
+        GameBalance balance = EvaluateGameBalance();
+        if (balance == GameBalance.PLAYERDOMINANT)
+        {
+            state = AiMode.GATHERING;
+        }
+        else if (balance == GameBalance.AIDOMINANT)
+        {
+            state = AiMode.DEFEND;
+        }
+        else if (balance == GameBalance.EVEN)
+        {
+
+        }
+    }
+
     public void MoveUnits()
     {
-        if (aiMode == AiMode.ATTACK)
+        if (state == AiMode.ATTACK)
         {
             foreach (var unit in Gamemanager.instance.aiTroops)
             {
                 unit.GetComponent<Unit>().MoveTowardEnemy();
             }
         }
-        else if (aiMode == AiMode.GATHERING)
+        else if (state == AiMode.GATHERING)
         {
             foreach (var unit in Gamemanager.instance.aiTroops)
             {
                 unit.GetComponent<Unit>().MoveTowardFlag();
             }
         }
-        else if (aiMode != AiMode.DEFEND)
+        else if (state != AiMode.DEFEND)
         {
 
         }
@@ -120,5 +172,10 @@ public class AiManager : MonoBehaviour
                 unit.GetComponent<Unit>().Attack(enemy.GetComponent<Unit>());
             }
         }
+    }
+
+    public void AttackWave()
+    {
+
     }
 }

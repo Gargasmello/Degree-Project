@@ -34,7 +34,6 @@ public abstract class Tile : MonoBehaviour
 
     public void Update()
     {
-        DisplayScore();
     }
 
     private void OnMouseEnter()
@@ -117,7 +116,7 @@ public abstract class Tile : MonoBehaviour
             RangedScore += 3;
             ArtilleryScore += 3;
         }
-        else if (GetComponent<FlagTile>() && AiManager.Instance.aiMode == AiMode.DEFEND)
+        else if (GetComponent<FlagTile>() && AiManager.Instance.state == AiMode.DEFEND)
         {
             MeleeScore += 0;
             RangedScore += 5;
