@@ -34,6 +34,7 @@ public abstract class Tile : MonoBehaviour
 
     public void Update()
     {
+        //DisplayScore();
     }
 
     private void OnMouseEnter()
@@ -105,6 +106,14 @@ public abstract class Tile : MonoBehaviour
             if (playerUnit.GetComponent<Unit>().unitSo.unitType == UnitType.Knight && RangeCalculation(playerUnit.GetComponent<Unit>())) MeleeScore += 1;
             else if (playerUnit.GetComponent<Unit>().unitSo.unitType == UnitType.Archer && RangeCalculation(playerUnit.GetComponent<Unit>())) RangedScore += 1;
             else if (playerUnit.GetComponent<Unit>().unitSo.unitType == UnitType.Catapult && RangeCalculation(playerUnit.GetComponent<Unit>())) ArtilleryScore += 1;
+        }
+    }
+
+    public void TilePointsTowardRightSide()
+    {
+        foreach(var tile in GridManager.instance.tilesList)
+        {
+
         }
     }
 

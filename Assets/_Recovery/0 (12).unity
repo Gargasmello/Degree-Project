@@ -10594,7 +10594,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1538343008}
   - component: {fileID: 1538343009}
-  - component: {fileID: 1538343010}
   m_Layer: 0
   m_Name: AiManager
   m_TagString: Untagged
@@ -10637,18 +10636,6 @@ MonoBehaviour:
   - {fileID: 4486532009876145436, guid: 9a4d1639b0b07894b9a8b2b787006986, type: 3}
   firstColumnTiles: []
   state: 0
---- !u!114 &1538343010
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538343007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af8cb7a3063c26e428fe42453efdb0c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Assets.Scripts.AI.AiStrategies
 --- !u!1001 &1542561299
 PrefabInstance:
   m_ObjectHideFlags: 0

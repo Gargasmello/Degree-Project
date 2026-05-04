@@ -1,3 +1,4 @@
+using Assets.Scripts.AI;
 using NUnit.Framework;
 using Pointo.Unit;
 using System.Collections.Generic;
@@ -35,12 +36,13 @@ public class AiManager : MonoBehaviour
 
     public AiMode state;
 
+    List<List<GameObject>> columns;
+
     private void Awake()
     {
         Instance = this;
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         spawnUnit = units[Random.Range(0, units.Count)];
@@ -52,12 +54,6 @@ public class AiManager : MonoBehaviour
                 firstColumnTiles.Add(tile);
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void SpawnUnit()
@@ -91,6 +87,7 @@ public class AiManager : MonoBehaviour
     // In range of attack, In range of movement,  
     public void EvaluateTiles(List<GameObject> tiles)
     {
+        GridManager.instance.TilePointsTowardRightSide();
         foreach (var tile in tiles)
         {
             tile.GetComponent<Tile>().TileInRangeOfPlayerUnit();
@@ -137,7 +134,25 @@ public class AiManager : MonoBehaviour
         }
         else if (balance == GameBalance.EVEN)
         {
-
+            int random = Random.Range(0, 4);
+            switch (random)
+            {
+                case 0:
+                    state = AiMode.GATHERING;
+                    break;
+                case 1:
+                    state = AiMode.DEFEND; 
+                    break;
+                case 2:
+                    state = AiMode.ATTACK;
+                    break;
+                case 3:
+                    state = AiMode.ATTACK;
+                    break;
+                case 4:
+                    state = AiMode.ATTACK;
+                    break;
+            }
         }
     }
 
@@ -159,7 +174,10 @@ public class AiManager : MonoBehaviour
         }
         else if (state != AiMode.DEFEND)
         {
-
+            foreach (var unit in Gamemanager.instance.aiTroops)
+            {
+                unit.GetComponent<Unit>().MoveTowardFlagDefence();
+            }
         }
     }
 
@@ -174,8 +192,73 @@ public class AiManager : MonoBehaviour
         }
     }
 
-    public void AttackWave()
+    public void ColumnsUpdate()
     {
+        foreach(var wave in columns)
+        {
+            AiStrategies.Instance.Column(wave);
+        }
+    }
 
+    public void GroupUnits()
+    {
+        int random = Random.Range(0, 2);
+
+        switch (random)
+        {
+            case 0:
+                List<GameObject> waveMelee = new();
+                int number = Random.Range(2, 4);
+                for (int i = 0; i < number; i++)
+                {
+                    int randomIndex = Random.Range(0, Gamemanager.instance.aiTroops.Count);
+                    GameObject waveUnit = Gamemanager.instance.aiTroops[randomIndex];
+                    if (waveUnit.GetComponent<Unit>().unitSo.unitType != UnitType.Archer)
+                    {
+                        waveMelee.Add(waveUnit);
+                    }
+                    else
+                    {
+                        //Made with claude
+                        bool hasNonMelee = Gamemanager.instance.aiTroops.Exists(u => u.GetComponent<Unit>().unitSo.unitType
+                        != UnitType.Knight);
+
+                        if (hasNonMelee) i--;
+                        else break;
+                    }
+                }
+
+                AiStrategies.Instance.Column(waveMelee);
+                columns.Add(waveMelee);
+
+                break;
+            case 1:
+                List<GameObject> waveRange = new();
+                int numberRanged = Random.Range(1, 2);
+                if (numberRanged != 2) return;
+                for (int i = 0; i < numberRanged; i++)
+                {
+                    int randomIndex = Random.Range(0, Gamemanager.instance.aiTroops.Count);
+                    GameObject waveUnit = Gamemanager.instance.aiTroops[randomIndex];
+                    if (waveUnit.GetComponent<Unit>().unitSo.unitType != UnitType.Archer)
+                    {
+                        waveRange.Add(waveUnit);
+                    }
+                    else
+                    {
+                        //Made with claude
+                        bool hasNonArcher = Gamemanager.instance.aiTroops.Exists(u => u.GetComponent<Unit>().unitSo.unitType
+                        != UnitType.Archer);
+
+                        if (hasNonArcher) i--;
+                        else break;
+                    }
+                }
+
+                AiStrategies.Instance.Column(waveRange);
+                columns.Add(waveRange);
+
+                break;
+        }
     }
 }

@@ -158,7 +158,7 @@ namespace Pointo.Unit
         public void MoveTowardEnemy()
         {
             Vector2 moveDir = GetMoveDirection(transform.position, ClosestUnit());
-            GetTilesInRange();
+            tilesInRange = GetTilesInRange();
             switch (unitSo.unitType)
             {
                 case UnitType.Knight:
@@ -190,7 +190,7 @@ namespace Pointo.Unit
         public void MoveTowardFlag()
         {
             Vector2 moveDir = GetMoveDirection(transform.position, ClosestFlag());
-            GetTilesInRange();
+            tilesInRange = GetTilesInRange();
             switch (unitSo.unitType)
             {
                 case UnitType.Knight:
@@ -221,8 +221,8 @@ namespace Pointo.Unit
 
         public void MoveTowardFlagDefence()
         {
-            Vector2 moveDir = GetMoveDirection(transform.position, ClosestFlag());
-            GetTilesInRange();
+            Vector2 moveDir = GetMoveDirection(transform.position, ClosestOwnFlag());
+            tilesInRange = GetTilesInRange();
             switch (unitSo.unitType)
             {
                 case UnitType.Knight:
@@ -251,8 +251,9 @@ namespace Pointo.Unit
             tilesInRange.Clear();
         }
 
-        private void GetTilesInRange()
+        public List<GameObject> GetTilesInRange()
         {
+            List<GameObject> tilesInRange = new();
             foreach (var tile in GridManager.instance.tilesList)
             {
                 if (RangeCalculation(tile.GetComponent<Tile>()))
@@ -260,6 +261,8 @@ namespace Pointo.Unit
                     tilesInRange.Add(tile);
                 }
             }
+
+            return tilesInRange;
         }
 
         //Claude made
@@ -305,6 +308,28 @@ namespace Pointo.Unit
             return closest;
         }
 
+        private Vector2 ClosestOwnFlag()
+        {
+            Vector2 closest = Vector2.zero;
+            float minDistance = float.MaxValue;
+
+            foreach (var flag in GridManager.instance.tilesList)
+            {
+                if (flag.GetComponent<FlagTile>() != null && flag.GetComponent<FlagTile>().aiControl)
+                {
+                    float dist = Mathf.Abs(transform.position.x - flag.transform.position.x) + Mathf.Abs(transform.position.y - flag.transform.position.y);
+                    if (dist < minDistance)
+                    {
+                        minDistance = dist;
+
+                        closest = new(flag.transform.position.x, flag.transform.position.y);
+                    }
+                }
+            }
+
+            return closest;
+        }
+
         //Claude made
         private Vector2 GetMoveDirection(Vector2 from, Vector2 to)
         {
@@ -315,6 +340,11 @@ namespace Pointo.Unit
                 return new Vector2(Mathf.Sign(dx), 0);
             else
                 return new Vector2(0, Mathf.Sign(dy));
+        }
+
+        public void MoveTowardUnitDir(Unit unit)
+        {
+            Vector2 direction = GetMoveDirection(transform.position, unit.transform.position);
         }
 
         public void GetEnemiesInRange()
@@ -341,7 +371,7 @@ namespace Pointo.Unit
 
         public void ActivateTilesInRangeIcons()
         {
-            GetTilesInRange();
+            tilesInRange = GetTilesInRange();
             foreach (var tile in tilesInRange)
             {
                 if (canMove == true) tile.GetComponent<Tile>().inRangeIcon.SetActive(true);

@@ -70,6 +70,8 @@ public class Gamemanager : MonoBehaviour
         Money.instance.GainResourcesAi(Money.instance.UpdateFlagOwnership());
         AiManager.Instance.SpawnUnit();
         AiManager.Instance.EvaluateTiles(GridManager.instance.tilesList);
+        AiManager.Instance.GroupUnits();
+        AiManager.Instance.ColumnsUpdate();
         AiManager.Instance.MoveUnits();
         AiManager.Instance.AttackEnemies();
         UpdateGameState(GameState.Won);

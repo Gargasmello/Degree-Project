@@ -44,4 +44,14 @@ public class GridManager : MonoBehaviour
 
         return null;
     }
+
+    public void TilePointsTowardRightSide()
+    {
+        foreach (var tile in tilesList)
+        {
+            tile.GetComponentInParent<Tile>().ArtilleryScore += (int)tile.transform.position.x;
+            tile.GetComponentInParent<Tile>().RangedScore += (int)tile.transform.position.x;
+            tile.GetComponentInParent<Tile>().MeleeScore += (int)tile.transform.position.x;
+        }
+    }
 }
