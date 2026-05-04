@@ -20,7 +20,7 @@ public class Gamemanager : MonoBehaviour
 
     public TextMeshProUGUI winText, loseText;
 
-    public float turns, troopsCreated;
+    public float turns, playerTroopsCreated, aiTroopsCreated;
     public bool won;
 
     private void Awake()
@@ -70,6 +70,7 @@ public class Gamemanager : MonoBehaviour
         Money.instance.GainResourcesAi(Money.instance.UpdateFlagOwnership());
         AiManager.Instance.SpawnUnit();
         AiManager.Instance.EvaluateTiles(GridManager.instance.tilesList);
+        AiManager.Instance.UpdateAiState();
         AiManager.Instance.GroupUnits();
         AiManager.Instance.ColumnsUpdate();
         AiManager.Instance.MoveUnits();
@@ -83,7 +84,8 @@ public class Gamemanager : MonoBehaviour
         {
             winText.gameObject.SetActive(true);
             won = true;
-            Debug.Log($"Player win {won}, turns played {turns}, troops created {troopsCreated}");
+            FileWriter.instance.LogGameEnd("Won");
+            
         }
         else
         {
@@ -97,7 +99,7 @@ public class Gamemanager : MonoBehaviour
         {
             loseText.gameObject.SetActive(true);
             won = false;
-            Debug.Log($"Player win {won}, turns played {turns}, troops created {troopsCreated}");
+            FileWriter.instance.LogGameEnd("Lost");
         }
         else
         {
@@ -110,6 +112,7 @@ public class Gamemanager : MonoBehaviour
         turns += 1;
         Money.instance.GainResourcesPlayer(Money.instance.UpdateFlagOwnership());
         RefreshPlayerTroops();
+        FileWriter.instance.LogGameBalance();
     }
 
     private void HandleStart()
@@ -138,7 +141,7 @@ public class Gamemanager : MonoBehaviour
 
     private void RefreshAiTroops()
     {
-
+        AiManager.Instance.RefreshColumns();
         UpdateTroops();
         foreach (var player in aiTroops)
         {

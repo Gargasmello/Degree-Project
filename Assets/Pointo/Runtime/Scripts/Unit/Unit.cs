@@ -351,6 +351,7 @@ namespace Pointo.Unit
         {
             foreach(var enemy in Gamemanager.instance.aiTroops)
             {
+                if (enemy == null) continue;
                 if (Calc.IsWithinRange(enemy.transform, transform, unitSo.range))
                 {
                     enemy.GetComponent<Unit>().inRangeIcon.SetActive(true);
@@ -362,10 +363,8 @@ namespace Pointo.Unit
         {
             foreach (var enemy in Gamemanager.instance.aiTroops)
             {
-                if (enemy.GetComponent<Unit>().inRangeIcon != null)
-                {
-                    enemy.GetComponent<Unit>().inRangeIcon.SetActive(false);
-                }
+                if(enemy == null) continue;
+                enemy.GetComponent<Unit>().inRangeIcon.SetActive(false);
             }
         }
 

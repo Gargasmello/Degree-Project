@@ -27,12 +27,22 @@ namespace Assets.Scripts.AI
 			List<GameObject> tilesInRange = CheckIfColumnTilesAreInRange(wave);
 			if (tilesInRange.Count >= wave.Count)
 			{
-                GameObject startTile = new();
-				while (wave[0].transform.position.x < startTile.transform.position.x) startTile = tilesInRange[Random.Range(0, tilesInRange.Count)];
+                GameObject startTile = null;
+				int maxAttempts = 20;
+				do { 
+					startTile = tilesInRange[Random.Range(0, tilesInRange.Count)];
+					maxAttempts--;
+                    if (maxAttempts == 0) return;
+                }
+				while (wave[0].transform.position.x < startTile.transform.position.x);
 				for (int i = 0; i < wave.Count; i++)
 				{
-					//Made with claude help
-					wave[i].GetComponent<Unit>().MoveToTile(GridManager.instance.tilesList.First(tile => tile.transform.position.x == startTile.transform.position.x && tile.transform.position.y == tile.transform.position.y + i).GetComponent<Tile>());
+                    GameObject chosenTile = GridManager.instance.tilesList.FirstOrDefault(tile => tile.transform.position.x == startTile.transform.position.x && tile.transform.position.y == startTile.transform.position.y - i);
+					if (chosenTile != null)
+					{
+						//Made with claude help
+						wave[i].GetComponent<Unit>().MoveToTile(chosenTile.GetComponent<Tile>());
+					}
 				}
 			}
 		}

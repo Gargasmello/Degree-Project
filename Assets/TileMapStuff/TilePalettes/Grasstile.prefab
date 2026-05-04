@@ -625,8 +625,8 @@ MonoBehaviour:
   artilleryScoreText: {fileID: 5760406373204450739}
   inRangeIcon: {fileID: 0}
   occupiedUnit: {fileID: 0}
-  baseColor: {r: 0.07475969, g: 0.4528302, b: 0.12028819, a: 1}
-  offsetColor: {r: 0.01966893, g: 0.3207547, b: 0.076658815, a: 1}
+  baseColor: {r: 0.754717, g: 0.63132817, b: 0.17443931, a: 1}
+  offsetColor: {r: 0.9056604, g: 0.7987094, b: 0.17515129, a: 1}
 --- !u!1 &5253609410536457500 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2398282509196965014, guid: 5c89044ccd9db0f46b2ec1e203090302,

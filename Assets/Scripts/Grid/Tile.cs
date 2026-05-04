@@ -89,7 +89,7 @@ public abstract class Tile : MonoBehaviour
                 spawnedUnit.transform.position = transform.position;
                 SetUnit(spawnedUnit.GetComponent<Unit>());
                 UnitManager.instance.SpawningUnit = null;
-                Gamemanager.instance.troopsCreated += 1;
+                Gamemanager.instance.playerTroopsCreated += 1;
             }
         }
     }

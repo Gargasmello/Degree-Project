@@ -2,6 +2,7 @@ using Assets.Scripts.AI;
 using NUnit.Framework;
 using Pointo.Unit;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor.Rendering;
 using UnityEditor.SpeedTree.Importer;
 using UnityEngine;
@@ -36,7 +37,7 @@ public class AiManager : MonoBehaviour
 
     public AiMode state;
 
-    List<List<GameObject>> columns;
+    List<List<GameObject>> columns = new();
 
     private void Awake()
     {
@@ -80,6 +81,7 @@ public class AiManager : MonoBehaviour
             spawnedUnit.transform.position = spawnTile.transform.position;
             spawnTile.GetComponent<Tile>().SetUnit(spawnedUnit.GetComponent<Unit>());
             spawnUnit = units[Random.Range(0, units.Count)];
+            Gamemanager.instance.aiTroopsCreated += 1;
         }
     }
 
@@ -95,7 +97,7 @@ public class AiManager : MonoBehaviour
         }
     }
 
-    private GameBalance EvaluateGameBalance()
+    public GameBalance EvaluateGameBalance()
     {
         GameBalance balance = new();
 
@@ -162,21 +164,41 @@ public class AiManager : MonoBehaviour
         {
             foreach (var unit in Gamemanager.instance.aiTroops)
             {
-                unit.GetComponent<Unit>().MoveTowardEnemy();
+                int rand = Random.Range(0, 2);
+                switch (rand)
+                {
+                    case 0:
+                        unit.GetComponent<Unit>().MoveTowardEnemy();
+                        break;
+                    case 1:
+                        unit.GetComponent<Unit>().MoveTowardFlag();
+                        break;
+                }
             }
         }
         else if (state == AiMode.GATHERING)
         {
             foreach (var unit in Gamemanager.instance.aiTroops)
             {
-                unit.GetComponent<Unit>().MoveTowardFlag();
+                int rand = Random.Range(0, 6);
+                //Refactored with claude help
+                if (rand < 2)
+                    unit.GetComponent<Unit>().MoveTowardEnemy();
+                else if (rand < 5)
+                    unit.GetComponent<Unit>().MoveTowardFlag();
+                else
+                    unit.GetComponent<Unit>().MoveTowardFlagDefence();
             }
         }
-        else if (state != AiMode.DEFEND)
+        else if (state == AiMode.DEFEND)
         {
             foreach (var unit in Gamemanager.instance.aiTroops)
             {
-                unit.GetComponent<Unit>().MoveTowardFlagDefence();
+                int rand = Random.Range(0, 3);
+                if (rand < 1)
+                    unit.GetComponent<Unit>().MoveTowardEnemy();
+                else
+                    unit.GetComponent<Unit>().MoveTowardFlagDefence();
             }
         }
     }
@@ -194,6 +216,7 @@ public class AiManager : MonoBehaviour
 
     public void ColumnsUpdate()
     {
+        if (columns.Count() == 0) return;
         foreach(var wave in columns)
         {
             AiStrategies.Instance.Column(wave);
@@ -229,12 +252,13 @@ public class AiManager : MonoBehaviour
                 }
 
                 AiStrategies.Instance.Column(waveMelee);
-                columns.Add(waveMelee);
+                if (waveMelee.Count > 0) columns.Add(waveMelee);
+
 
                 break;
             case 1:
                 List<GameObject> waveRange = new();
-                int numberRanged = Random.Range(1, 2);
+                int numberRanged = Random.Range(1, 3);
                 if (numberRanged != 2) return;
                 for (int i = 0; i < numberRanged; i++)
                 {
@@ -247,18 +271,34 @@ public class AiManager : MonoBehaviour
                     else
                     {
                         //Made with claude
+                        int maxAttempts = 20;
                         bool hasNonArcher = Gamemanager.instance.aiTroops.Exists(u => u.GetComponent<Unit>().unitSo.unitType
                         != UnitType.Archer);
 
-                        if (hasNonArcher) i--;
+                        if (hasNonArcher)
+                        {
+                            i--;
+                            maxAttempts--;
+                            if (maxAttempts == 0) break;
+                        }
                         else break;
                     }
                 }
 
                 AiStrategies.Instance.Column(waveRange);
-                columns.Add(waveRange);
+                if (waveRange.Count > 0) { columns.Add(waveRange); }
 
                 break;
         }
+    }
+
+    public void RefreshColumns()
+    {
+        //Made with help of claude
+        foreach (var column in columns.ToList())
+        {
+            column.RemoveAll(item => item == null);
+        }
+        columns.RemoveAll(column => column.Count() == 0);
     }
 }
