@@ -20,6 +20,8 @@ public class Gamemanager : MonoBehaviour
 
     public TextMeshProUGUI winText, loseText;
 
+    public List<GameObject> lastColumnTiles = new();
+
     public float turns, playerTroopsCreated, aiTroopsCreated;
     public bool won;
 
@@ -30,8 +32,17 @@ public class Gamemanager : MonoBehaviour
 
     private void Start()
     {
-        UpdateGameState(GameState.Start);
+        float maxX = GridManager.instance.tilesList.Max(tile => tile.transform.position.x);
+
+        foreach (var tile in GridManager.instance.tilesList)
+        {
+            if (Mathf.Approximately(tile.transform.position.x, maxX))
+            {
+                lastColumnTiles.Add(tile);
+            }
+        }
         UpdateTroops();
+        UpdateGameState(GameState.Start);
     }
 
     public void UpdateGameState(GameState newState)

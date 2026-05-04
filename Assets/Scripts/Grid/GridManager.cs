@@ -22,12 +22,9 @@ public class GridManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
-
-    private void Start()
-    {
         tilesList = GameObject.FindGameObjectsWithTag("Tile").ToList();
-        foreach (var tile in tilesList) {
+        foreach (var tile in tilesList)
+        {
             if (tile.GetComponent<FlagTile>() != null)
             {
                 flagTiles.Add(tile);

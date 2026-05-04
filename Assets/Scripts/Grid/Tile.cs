@@ -83,13 +83,17 @@ public abstract class Tile : MonoBehaviour
                 UnitManager.instance.DeselectSelectedUnit();
             }
 
-            if (UnitManager.instance.SpawningUnit != null)
+            if (UnitManager.instance.SpawningUnit != null && transform.position.x == 18.5)
             {
                 var spawnedUnit = Instantiate(UnitManager.instance.SpawningUnit);
                 spawnedUnit.transform.position = transform.position;
                 SetUnit(spawnedUnit.GetComponent<Unit>());
                 UnitManager.instance.SpawningUnit = null;
                 Gamemanager.instance.playerTroopsCreated += 1;
+                foreach(var tile in Gamemanager.instance.lastColumnTiles)
+                {
+                    tile.GetComponent<Tile>().inRangeIcon.SetActive(false);
+                }
             }
         }
     }
