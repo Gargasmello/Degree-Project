@@ -383,8 +383,10 @@ MonoBehaviour:
   aiTroops: []
   winText: {fileID: 915582310}
   loseText: {fileID: 837496533}
+  lastColumnTiles: []
   turns: 0
-  troopsCreated: 0
+  playerTroopsCreated: 0
+  aiTroopsCreated: 0
   won: 0
 --- !u!4 &32203319
 Transform:
@@ -8410,10 +8412,88 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioManage
   sounds:
-  - name: 
-    clip: {fileID: 0}
-    volume: 0
-    pitch: 0
+  - name: AiAttackA
+    clip: {fileID: 8300000, guid: e619eb4aded4f2542b6719e230cebd59, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: AiAttackB
+    clip: {fileID: 8300000, guid: 6eb86d484754f794c9d47809640d5864, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: AttackA
+    clip: {fileID: 8300000, guid: 98eb2ea608d9a20478272270fcce0855, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: AttackB
+    clip: {fileID: 8300000, guid: 62edb21da01079547a1a335a75780e26, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: SpawnUnitA
+    clip: {fileID: 8300000, guid: a2da49eab782c79479088b96813bab9e, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: SpawnUnitB
+    clip: {fileID: 8300000, guid: 5faaf38ed4e535c4a84520d017d26800, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: InvalidMoveA
+    clip: {fileID: 8300000, guid: e99eee3e866e8494faebf93bfa494e4c, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: InvalidMoveB
+    clip: {fileID: 8300000, guid: 5a8bd1f95d7ba73489a7e11e17114135, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: NewTurnA
+    clip: {fileID: 8300000, guid: 404fcd41888dc5a4bb0077694dbdf4d4, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: NewTurnB
+    clip: {fileID: 8300000, guid: 97e93b1bcccae624e9974aa2f2ed15c6, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: VictoryA
+    clip: {fileID: 8300000, guid: 12d57d981c25d444d94644baba5f9a7e, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: VictoryB
+    clip: {fileID: 8300000, guid: b1045a73f74c37844bccdf35e1121dfd, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: LoseA
+    clip: {fileID: 8300000, guid: b910905ac18f16547b066ff0b459a99e, type: 3}
+    volume: 0.7
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: LoseB
+    clip: {fileID: 8300000, guid: d63ce0a8a3a90f346998c27e7258ed86, type: 3}
+    volume: 0.7
+    pitch: 1
     loop: 0
     source: {fileID: 0}
 --- !u!1001 &1158300611

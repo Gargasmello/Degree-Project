@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using static UnityEngine.UI.CanvasScaler;
 
 namespace Pointo.Unit
@@ -172,12 +173,34 @@ namespace Pointo.Unit
                     break;
             }
 
-            //Made by claude
-            GameObject bestTile = tilesInRange.FirstOrDefault(tileObj =>
+            GameObject bestTile = null;
+
+            if (SceneManager.GetActiveScene().name == "SceneA")
             {
-                Vector2 toTile = tileObj.transform.position - transform.position;
-                return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
-            });
+                //Made by claude
+                bestTile = tilesInRange.FirstOrDefault(tileObj =>
+                {
+                    Vector2 toTile = tileObj.transform.position - transform.position;
+                    return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
+                });
+            }
+            else if (SceneManager.GetActiveScene().name == "SceneB")
+            {
+                int rand = Random.Range(0, 4);
+                if (rand == 0)
+                {
+                    bestTile = tilesInRange.FirstOrDefault(tileObj =>
+                    {
+                        Vector2 toTile = tileObj.transform.position - transform.position;
+                        return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
+                    });
+                }
+                else
+                {
+                    bestTile = tilesInRange[Random.Range(0, tilesInRange.Count())];
+                }
+            }
+            
 
             if(bestTile != null)
             {
@@ -204,12 +227,33 @@ namespace Pointo.Unit
                     break;
             }
 
-            //Made by claude
-            GameObject bestTile = tilesInRange.FirstOrDefault(tileObj =>
+            GameObject bestTile = null;
+
+            if (SceneManager.GetActiveScene().name == "SceneA")
             {
-                Vector2 toTile = tileObj.transform.position - transform.position;
-                return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
-            });
+                //Made by claude
+                bestTile = tilesInRange.FirstOrDefault(tileObj =>
+                {
+                    Vector2 toTile = tileObj.transform.position - transform.position;
+                    return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
+                });
+            }
+            else if (SceneManager.GetActiveScene().name == "SceneB")
+            {
+                int rand = Random.Range(0, 4);
+                if (rand == 0)
+                {
+                    bestTile = tilesInRange.FirstOrDefault(tileObj =>
+                    {
+                        Vector2 toTile = tileObj.transform.position - transform.position;
+                        return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
+                    });
+                }
+                else
+                {
+                    bestTile = tilesInRange[Random.Range(0, tilesInRange.Count())];
+                }
+            }
 
             if (bestTile != null)
             {
@@ -236,12 +280,33 @@ namespace Pointo.Unit
                     break;
             }
 
-            //Made by claude
-            GameObject bestTile = tilesInRange.FirstOrDefault(tileObj =>
+            GameObject bestTile = null;
+
+            if (SceneManager.GetActiveScene().name == "SceneA")
             {
-                Vector2 toTile = tileObj.transform.position - transform.position;
-                return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
-            });
+                //Made by claude
+                bestTile = tilesInRange.FirstOrDefault(tileObj =>
+                {
+                    Vector2 toTile = tileObj.transform.position - transform.position;
+                    return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
+                });
+            }
+            else if (SceneManager.GetActiveScene().name == "SceneB")
+            {
+                int rand = Random.Range(0, 4);
+                if (rand == 0)
+                {
+                    bestTile = tilesInRange.FirstOrDefault(tileObj =>
+                    {
+                        Vector2 toTile = tileObj.transform.position - transform.position;
+                        return Vector2.Dot(toTile.normalized, moveDir) > 0.5f;
+                    });
+                }
+                else
+                {
+                    bestTile = tilesInRange[Random.Range(0, tilesInRange.Count())];
+                }
+            }
 
             if (bestTile != null)
             {
@@ -398,6 +463,9 @@ namespace Pointo.Unit
                         {
                             enemies.GetComponent<Unit>().Health -= unitSo.attackStrength * GetAttackModifier(enemies.GetComponent<Unit>());
 
+                            if (SceneManager.GetActiveScene().name == "SceneA") AudioManager.instance.PlaySound("AttackA");
+                            else if (SceneManager.GetActiveScene().name == "SceneB") AudioManager.instance.PlaySound("AttackB");
+
                             canAttack = false;
 
                             OnHurt?.Invoke();
@@ -414,6 +482,9 @@ namespace Pointo.Unit
 
                             canAttack = false;
 
+                            if (SceneManager.GetActiveScene().name == "SceneA") AudioManager.instance.PlaySound("AttackA");
+                            else if (SceneManager.GetActiveScene().name == "SceneB") AudioManager.instance.PlaySound("AttackB");
+
                             OnHurt?.Invoke();
 
                             Debug.Log($"Attacked {enemies}");
@@ -426,6 +497,9 @@ namespace Pointo.Unit
                 enemy.Health -= unitSo.attackStrength * GetAttackModifier(enemy.GetComponent<Unit>());
 
                 canAttack = false;
+
+                if (SceneManager.GetActiveScene().name == "SceneA") AudioManager.instance.PlaySound("AttackA");
+                else if (SceneManager.GetActiveScene().name == "SceneB") AudioManager.instance.PlaySound("AttackB");
 
                 OnHurt?.Invoke();
 

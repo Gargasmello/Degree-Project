@@ -3,6 +3,7 @@ using System.Diagnostics;
 using TMPro;
 using UnityEditor.SpeedTree.Importer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
 
 public abstract class Tile : MonoBehaviour
@@ -90,7 +91,9 @@ public abstract class Tile : MonoBehaviour
                 SetUnit(spawnedUnit.GetComponent<Unit>());
                 UnitManager.instance.SpawningUnit = null;
                 Gamemanager.instance.playerTroopsCreated += 1;
-                foreach(var tile in Gamemanager.instance.lastColumnTiles)
+                if (SceneManager.GetActiveScene().name == "SceneA") AudioManager.instance.PlaySound("SpawnUnitA");
+                else if (SceneManager.GetActiveScene().name == "SceneB") AudioManager.instance.PlaySound("SpawnUnitB");
+                foreach (var tile in Gamemanager.instance.lastColumnTiles)
                 {
                     tile.GetComponent<Tile>().inRangeIcon.SetActive(false);
                 }

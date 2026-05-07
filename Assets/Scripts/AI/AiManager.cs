@@ -6,6 +6,7 @@ using System.Linq;
 using UnityEditor.Rendering;
 using UnityEditor.SpeedTree.Importer;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEngine.UI.CanvasScaler;
 using Unit = Pointo.Unit.Unit;
 
@@ -210,6 +211,8 @@ public class AiManager : MonoBehaviour
             foreach (var enemy in Gamemanager.instance.playerTroops)
             {
                 unit.GetComponent<Unit>().Attack(enemy.GetComponent<Unit>());
+                if (SceneManager.GetActiveScene().name == "SceneA") AudioManager.instance.PlaySound("AiAttackA");
+                else if (SceneManager.GetActiveScene().name == "SceneB") AudioManager.instance.PlaySound("AiAttackB");
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Gamemanager : MonoBehaviour
 {
@@ -83,9 +84,9 @@ public class Gamemanager : MonoBehaviour
         AiManager.Instance.EvaluateTiles(GridManager.instance.tilesList);
         AiManager.Instance.UpdateAiState();
         AiManager.Instance.GroupUnits();
+        AiManager.Instance.AttackEnemies();
         AiManager.Instance.ColumnsUpdate();
         AiManager.Instance.MoveUnits();
-        AiManager.Instance.AttackEnemies();
         UpdateGameState(GameState.Won);
     }
 
@@ -96,7 +97,8 @@ public class Gamemanager : MonoBehaviour
             winText.gameObject.SetActive(true);
             won = true;
             FileWriter.instance.LogGameEnd("Won");
-            
+            if (SceneManager.GetActiveScene().name == "SceneA") AudioManager.instance.PlaySound("VictoryA");
+            else if (SceneManager.GetActiveScene().name == "SceneB") AudioManager.instance.PlaySound("VictoryB");
         }
         else
         {
@@ -111,6 +113,8 @@ public class Gamemanager : MonoBehaviour
             loseText.gameObject.SetActive(true);
             won = false;
             FileWriter.instance.LogGameEnd("Lost");
+            if (SceneManager.GetActiveScene().name == "SceneA") AudioManager.instance.PlaySound("LoseA");
+            else if (SceneManager.GetActiveScene().name == "SceneB") AudioManager.instance.PlaySound("LoseB");
         }
         else
         {
@@ -120,6 +124,8 @@ public class Gamemanager : MonoBehaviour
 
     private void HandlePlayerTurn()
     {
+        if (SceneManager.GetActiveScene().name == "SceneA") AudioManager.instance.PlaySound("NewTurnA");
+        else if (SceneManager.GetActiveScene().name == "SceneB") AudioManager.instance.PlaySound("NewTurnB");
         turns += 1;
         Money.instance.GainResourcesPlayer(Money.instance.UpdateFlagOwnership());
         RefreshPlayerTroops();
