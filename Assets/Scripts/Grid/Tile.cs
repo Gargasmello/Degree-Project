@@ -1,7 +1,5 @@
 using Pointo.Unit;
-using System.Diagnostics;
 using TMPro;
-using UnityEditor.SpeedTree.Importer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Debug = UnityEngine.Debug;
@@ -120,7 +118,9 @@ public abstract class Tile : MonoBehaviour
     {
         foreach(var tile in GridManager.instance.tilesList)
         {
-
+            MeleeScore += (int)(tile.transform.position.x * 1.4);
+            RangedScore += (int)(tile.transform.position.x * 1.2);
+            ArtilleryScore += (int)(tile.transform.position.x * 1.1);
         }
     }
 
@@ -129,14 +129,14 @@ public abstract class Tile : MonoBehaviour
         if (GetComponent<FlagTile>() && GetComponent<FlagTile>().aiControl == false)
         {
             MeleeScore += 3;
-            RangedScore += 3;
-            ArtilleryScore += 3;
+            RangedScore += 5;
+            ArtilleryScore += 10;
         }
         else if (GetComponent<FlagTile>() && AiManager.Instance.state == AiMode.DEFEND)
         {
             MeleeScore += 0;
             RangedScore += 5;
-            ArtilleryScore += 5;
+            ArtilleryScore += 100;
         }
     }
 

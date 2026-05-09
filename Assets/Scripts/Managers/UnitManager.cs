@@ -23,6 +23,14 @@ public class UnitManager : MonoBehaviour
         instance = this;
     }
 
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(1))
+        {
+            DeselectSelectedUnit();
+        }
+    }
+
     public void SetSelectedUnit(Unit selectedUnit)
     {
         if (this.selectedUnit == null)

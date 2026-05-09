@@ -1,13 +1,9 @@
 using Assets.Scripts.AI;
-using NUnit.Framework;
 using Pointo.Unit;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Rendering;
-using UnityEditor.SpeedTree.Importer;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEngine.UI.CanvasScaler;
 using Unit = Pointo.Unit.Unit;
 
 public enum AiMode
@@ -161,45 +157,93 @@ public class AiManager : MonoBehaviour
 
     public void MoveUnits()
     {
-        if (state == AiMode.ATTACK)
+        if (SceneManager.GetActiveScene().name == "SceneA")
         {
-            foreach (var unit in Gamemanager.instance.aiTroops)
+            if (state == AiMode.ATTACK)
             {
-                int rand = Random.Range(0, 2);
-                switch (rand)
+                foreach (var unit in Gamemanager.instance.aiTroops)
                 {
-                    case 0:
+                    int rand = Random.Range(0, 2);
+                    switch (rand)
+                    {
+                        case 0:
+                            unit.GetComponent<Unit>().MoveTowardEnemy();
+                            break;
+                        case 1:
+                            unit.GetComponent<Unit>().MoveTowardFlag();
+                            break;
+                    }
+                }
+            }
+            else if (state == AiMode.GATHERING)
+            {
+                foreach (var unit in Gamemanager.instance.aiTroops)
+                {
+                    int rand = Random.Range(0, 6);
+                    //Refactored with claude help
+                    if (rand < 2)
                         unit.GetComponent<Unit>().MoveTowardEnemy();
-                        break;
-                    case 1:
+                    else if (rand < 5)
                         unit.GetComponent<Unit>().MoveTowardFlag();
-                        break;
+                    else
+                        unit.GetComponent<Unit>().MoveTowardFlagDefence();
+                }
+            }
+            else if (state == AiMode.DEFEND)
+            {
+                foreach (var unit in Gamemanager.instance.aiTroops)
+                {
+                    int rand = Random.Range(0, 3);
+                    if (rand < 1)
+                        unit.GetComponent<Unit>().MoveTowardEnemy();
+                    else
+                        unit.GetComponent<Unit>().MoveTowardFlagDefence();
                 }
             }
         }
-        else if (state == AiMode.GATHERING)
+        else if (SceneManager.GetActiveScene().name == "SceneB")
         {
-            foreach (var unit in Gamemanager.instance.aiTroops)
+            int rand = Random.Range(0, 3);
+            switch ((AiMode)rand)
             {
-                int rand = Random.Range(0, 6);
-                //Refactored with claude help
-                if (rand < 2)
-                    unit.GetComponent<Unit>().MoveTowardEnemy();
-                else if (rand < 5)
-                    unit.GetComponent<Unit>().MoveTowardFlag();
-                else
-                    unit.GetComponent<Unit>().MoveTowardFlagDefence();
-            }
-        }
-        else if (state == AiMode.DEFEND)
-        {
-            foreach (var unit in Gamemanager.instance.aiTroops)
-            {
-                int rand = Random.Range(0, 3);
-                if (rand < 1)
-                    unit.GetComponent<Unit>().MoveTowardEnemy();
-                else
-                    unit.GetComponent<Unit>().MoveTowardFlagDefence();
+                case AiMode.ATTACK:
+                    foreach (var unit in Gamemanager.instance.aiTroops)
+                    {
+                        int rand2 = Random.Range(0, 2);
+                        switch (rand)
+                        {
+                            case 0:
+                                unit.GetComponent<Unit>().MoveTowardEnemy();
+                                break;
+                            case 1:
+                                unit.GetComponent<Unit>().MoveTowardFlag();
+                                break;
+                        }
+                    }
+                    break;
+                case AiMode.DEFEND:
+                    foreach (var unit in Gamemanager.instance.aiTroops)
+                    {
+                        int rand2 = Random.Range(0, 3);
+                        if (rand < 1)
+                            unit.GetComponent<Unit>().MoveTowardEnemy();
+                        else
+                            unit.GetComponent<Unit>().MoveTowardFlagDefence();
+                    }
+                    break;
+                case AiMode.GATHERING:
+                    foreach (var unit in Gamemanager.instance.aiTroops)
+                    {
+                        int rand2 = Random.Range(0, 6);
+                        //Refactored with claude help
+                        if (rand < 2)
+                            unit.GetComponent<Unit>().MoveTowardEnemy();
+                        else if (rand < 5)
+                            unit.GetComponent<Unit>().MoveTowardFlag();
+                        else
+                            unit.GetComponent<Unit>().MoveTowardFlagDefence();
+                    }
+                    break;
             }
         }
     }
@@ -211,8 +255,20 @@ public class AiManager : MonoBehaviour
             foreach (var enemy in Gamemanager.instance.playerTroops)
             {
                 unit.GetComponent<Unit>().Attack(enemy.GetComponent<Unit>());
-                if (SceneManager.GetActiveScene().name == "SceneA") AudioManager.instance.PlaySound("AiAttackA");
-                else if (SceneManager.GetActiveScene().name == "SceneB") AudioManager.instance.PlaySound("AiAttackB");
+                if (SceneManager.GetActiveScene().name == "SceneA")
+                {
+                    AudioManager.instance.PlaySound("AiAttackA");
+                    unit.GetComponent<Unit>().Attack(enemy.GetComponent<Unit>());
+                }
+                else if (SceneManager.GetActiveScene().name == "SceneB")
+                {
+                    int rand = Random.Range(0, 7);
+                    if (rand < 2)
+                    {
+                        AudioManager.instance.PlaySound("AiAttackB");
+                        unit.GetComponent<Unit>().Attack(enemy.GetComponent<Unit>());
+                    }
+                }
             }
         }
     }

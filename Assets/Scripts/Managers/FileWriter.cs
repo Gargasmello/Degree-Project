@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class FileWriter : MonoBehaviour
 {
+    // Made with claude
     public static FileWriter instance;
 
     private string filePath;
@@ -15,7 +16,7 @@ public class FileWriter : MonoBehaviour
             instance = this;
         }
 
-        folderPath = Path.Combine(Application.dataPath, "ParticipantFiles", "ParticipantData");
+        folderPath = Path.Combine(Application.persistentDataPath, "ParticipantFiles", "ParticipantData");
 
         if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
 
